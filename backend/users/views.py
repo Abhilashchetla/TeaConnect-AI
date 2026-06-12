@@ -1,18 +1,35 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from .models import User
+from rest_framework.response import Response
+from .serializers import RegisterSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import (
+    api_view,
+    permission_classes
+)
 
 @api_view(['POST'])
 def register_user(request):
 
-    user = User.objects.create(
-        name=request.data.get('name'),
-        email=request.data.get('email'),
-        phone=request.data.get('phone'),
-        role=request.data.get('role')
+    serializer = RegisterSerializer(
+        data=request.data
     )
 
+    if serializer.is_valid():
+
+        serializer.save()
+
+        return Response({
+            "message": "User Registered Successfully"
+        })
+
+    return Response(
+        serializer.errors
+    )
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def profile(request):
+
     return Response({
-        "message": "User Registered Successfully"
+        "message":"Protected Route Working"
     })
