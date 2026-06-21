@@ -4,6 +4,9 @@ from rest_framework.response import Response
 
 from orders.models import Order, OrderItem
 from inventory.models import Inventory
+from ml.predictor import predict_orders
+from django.db.models import Sum
+from orders.models import OrderItem
 
 @api_view(['GET'])
 def total_revenue(request):
@@ -95,5 +98,83 @@ def dashboard_summary(request):
         low_stock
 
     })
+
+
+@api_view(['GET'])
+def demand_prediction(
+    request,
+    day
+):
+
+    predicted_orders = (
+        predict_orders(day)
+    )
+
+    return Response({
+
+        "future_day": day,
+
+        "predicted_orders":
+        predicted_orders
+
+    })
+
+@api_view(['GET'])
+def inventory_forecast(
+    request,
+    day
+):
+
+    demand = predict_orders(day)
+
+    tea_powder_needed = (
+        demand * 50
+    )
+
+    milk_needed = (
+        demand * 200
+    )
+
+    sugar_needed = (
+        demand * 20
+    )
+
+    return Response({
+
+        "predicted_orders":
+        demand,
+
+        "tea_powder_g":
+        tea_powder_needed,
+
+        "milk_ml":
+        milk_needed,
+
+        "sugar_g":
+        sugar_needed
+
+    })
+
+@api_view(['GET'])
+def best_selling_tea(request):
+
+    tea = (
+        OrderItem.objects
+        .values(
+            'product__tea_name'
+        )
+        .annotate(
+            sold=Sum('quantity')
+        )
+        .order_by('-sold')
+        .first()
+    )
+
+    return Response(
+        tea
+    )
+
+
+
 
 
