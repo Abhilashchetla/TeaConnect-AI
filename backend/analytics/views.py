@@ -7,6 +7,10 @@ from inventory.models import Inventory
 from ml.predictor import predict_orders
 from django.db.models import Sum
 from orders.models import OrderItem
+from products.models import Product
+from shops.models import Shop
+from suppliers.models import Supplier
+
 
 @api_view(['GET'])
 def total_revenue(request):
@@ -173,6 +177,157 @@ def best_selling_tea(request):
     return Response(
         tea
     )
+
+@api_view(['GET'])
+def recommend_tea(request, user_id):
+
+    user_orders = OrderItem.objects.filter(
+        order__user_id=user_id
+    )
+
+    category_count = {}
+
+    for item in user_orders:
+
+        category = item.product.category
+
+        if category not in category_count:
+
+            category_count[category] = 0
+
+        category_count[category] += item.quantity
+
+    if not category_count:
+
+        return Response({
+            "message":
+            "No order history found"
+        })
+
+    favorite_category = max(
+        category_count,
+        key=category_count.get
+    )
+
+    recommendations = Product.objects.filter(
+        category=favorite_category
+    )[:5]
+
+    data = []
+
+    for product in recommendations:
+
+        data.append({
+
+            "tea_name":
+            product.tea_name,
+
+            "category":
+            product.category,
+
+            "price":
+            product.price
+
+        })
+
+    return Response({
+
+        "favorite_category":
+        favorite_category,
+
+        "recommendations":
+        data
+
+    })
+
+@api_view(['GET'])
+def customer_insights(
+    request,
+    user_id
+):
+
+    orders = OrderItem.objects.filter(
+        order__user_id=user_id
+    )
+
+    total_items = 0
+
+    total_spent = 0
+
+    for item in orders:
+
+        total_items += item.quantity
+
+        total_spent += (
+            item.quantity *
+            item.price
+        )
+
+    return Response({
+
+        "total_items_ordered":
+        total_items,
+
+        "total_spent":
+        total_spent
+
+    })
+
+@api_view(['GET'])
+def shop_performance(
+    request,
+    shop_id
+):
+
+    products = Product.objects.filter(
+        shop_id=shop_id
+    )
+
+    total_products = products.count()
+
+    return Response({
+
+        "shop_id":
+        shop_id,
+
+        "total_products":
+        total_products
+
+    })
+
+@api_view(['GET'])
+def ai_dashboard(request):
+
+    total_orders = Order.objects.count()
+
+    revenue = Order.objects.aggregate(
+        total=Sum('total_amount')
+    )
+
+    products = Product.objects.count()
+
+    shops = Shop.objects.count()
+
+    suppliers = Supplier.objects.count()
+
+    return Response({
+
+        "orders":
+        total_orders,
+
+        "revenue":
+        revenue['total'] or 0,
+
+        "products":
+        products,
+
+        "shops":
+        shops,
+
+        "suppliers":
+        suppliers
+
+    })
 
 
 

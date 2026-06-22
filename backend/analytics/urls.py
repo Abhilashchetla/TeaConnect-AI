@@ -8,7 +8,11 @@ from .views import (
     dashboard_summary,
     demand_prediction,
     inventory_forecast,
-    best_selling_tea
+    best_selling_tea,
+    recommend_tea,
+    customer_insights,
+    shop_performance,
+    ai_dashboard
 )
 
 urlpatterns = [
@@ -21,4 +25,8 @@ urlpatterns = [
     path('predict/<int:day>/',demand_prediction),
     path('forecast/<int:day>/',inventory_forecast),
     path('best-tea/',best_selling_tea),
+    path('recommend/<int:user_id>/',recommend_tea),
+    path('customer-insights/<int:user_id>/',customer_insights),
+    path('shop-performance/<int:shop_id>/',shop_performance),
+    path('dashboard/',ai_dashboard),
 ]
