@@ -1,0 +1,60 @@
+import React, { useState } from "react";
+import API from "../services/api";
+
+function Login() {
+
+  const [email,setEmail] =
+  useState("");
+
+  const [password,setPassword] =
+  useState("");
+
+  const loginUser = async () => {
+
+    const res =
+    await API.post(
+      "/token/",
+      {
+        email,
+        password
+      }
+    );
+
+    localStorage.setItem(
+      "token",
+      res.data.access
+    );
+
+    alert("Login Success");
+  };
+
+  return (
+
+    <div>
+
+      <h2>Login</h2>
+
+      <input
+        placeholder="Email"
+        onChange={(e)=>
+        setEmail(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e)=>
+        setPassword(e.target.value)}
+      />
+
+      <button
+        onClick={loginUser}
+      >
+        Login
+      </button>
+
+    </div>
+  );
+}
+
+export default Login;
