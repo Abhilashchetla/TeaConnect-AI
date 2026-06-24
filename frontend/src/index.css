@@ -13,3 +13,16 @@ button{
   padding:10px 20px;
   cursor:pointer;
 }
+.cards{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.card{
+  width:200px;
+  padding:20px;
+  background:white;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+}

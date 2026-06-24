@@ -9,6 +9,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
+import CreateShop from "./pages/CreateShop";
+import CreateProduct from "./pages/CreateProduct";
+import ProductList from "./pages/ProductList";
+import ShopList from "./pages/ShopList";
 
 function App() {
 
@@ -33,6 +37,25 @@ function App() {
     <Route
      path="/dashboard"
      element={<Dashboard />}
+    />
+    <Route
+    path="/create-shop"
+    element={<CreateShop />}
+    />
+
+    <Route
+    path="/create-product"
+    element={<CreateProduct />}
+    />
+
+    <Route
+    path="/products"
+    element={<ProductList />}
+    />
+
+    <Route
+    path="/shops"
+    element={<ShopList />}
     />
 
    </Routes>
