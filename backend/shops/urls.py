@@ -7,6 +7,6 @@ from .views import (
 )
 urlpatterns = [
     path('create/',create_shop),
-    path('',list_shops),
+    path('list/',list_shops),
     path('<int:id>/',shop_detail),
 ]

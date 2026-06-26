@@ -8,22 +8,19 @@ from .serializers import CartSerializer,OrderItemSerializer,OrderSerializer
 @api_view(['POST'])
 def add_to_cart(request):
 
-    serializer = CartSerializer(
-        data=request.data
-    )
+    print(request.data)
+
+    serializer = CartSerializer(data=request.data)
 
     if serializer.is_valid():
-
         serializer.save()
 
         return Response({
-            "message": "Product Added To Cart"
+            "message": "Added",
+            "data": serializer.data
         })
 
-    return Response(
-        serializer.errors
-    )
-
+    return Response(serializer.errors, status=400)
 @api_view(['GET'])
 def view_cart(request,user_id):
 
