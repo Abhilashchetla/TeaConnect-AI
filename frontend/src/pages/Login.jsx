@@ -1,58 +1,69 @@
 import React, { useState } from "react";
 import API from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
 
-  const [email,setEmail] =
-  useState("");
-
-  const [password,setPassword] =
-  useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginUser = async () => {
-
-    const res =
-    await API.post(
-      "/token/",
-      {
+    try {
+      const res = await API.post("/token/", {
         email,
-        password
-      }
-    );
+        password,
+      });
 
-    localStorage.setItem(
-      "token",
-      res.data.access
-    );
+      // Save token
+      localStorage.setItem("token", res.data.access);
+      localStorage.setItem("refresh", res.data.refresh);
 
-    alert("Login Success");
+      // Save user id (backend must send this)
+      localStorage.setItem("user_id", res.data.user_id);
+
+      // Set Authorization header
+      API.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res.data.access}`;
+
+      alert("Login Successful!");
+
+      navigate("/customer");
+    } catch (err) {
+      console.error(err);
+
+      alert("Invalid Email or Password");
+    }
   };
 
   return (
-
     <div>
-
       <h2>Login</h2>
 
       <input
+        type="email"
         placeholder="Email"
-        onChange={(e)=>
-        setEmail(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
+
+      <br />
+      <br />
 
       <input
         type="password"
         placeholder="Password"
-        onChange={(e)=>
-        setPassword(e.target.value)}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button
-        onClick={loginUser}
-      >
+      <br />
+      <br />
+
+      <button onClick={loginUser}>
         Login
       </button>
-
     </div>
   );
 }

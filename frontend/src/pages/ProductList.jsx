@@ -1,60 +1,60 @@
-import React,
-{
- useEffect,
- useState
-}
-from "react";
-
+import React, { useEffect, useState } from "react";
 import API from "../services/api";
 
-function ProductList(){
+function ProductList() {
+  const [products, setProducts] = useState([]);
 
- const [products,setProducts]
- = useState([]);
+  useEffect(() => {
+    loadProducts();
+  }, []);
 
- useEffect(()=>{
+  const loadProducts = async () => {
+    try {
+      const res = await API.get("/products/list/");
+      console.log(res.data);
+      setProducts(res.data);
+    } catch (err) {
+      console.error(err);
+      alert("Unable to load products");
+    }
+  };
 
-  loadProducts();
+  const addToCart = async (productId) => {
+    try {
+        await API.post("/cart/add/", {
+            user: 1,
+            product: productId,
+            quantity: 1
+        });
 
- },[]);
+        alert("Added to cart");
+    } catch (err) {
+        console.log(err.response?.data);
+        alert("Failed to add to cart");
+    }
+};
 
- const loadProducts=async()=>{
+  return (
+    <div>
+      <h1>Tea Products ({products.length})</h1>
 
-  const res=
-  await API.get(
-   "/products/list/"
-  );
+      <div className="product-grid">
+        {products.map((product) => (
+          <div className="product-card" key={product.id}>
+            <h3>{product.tea_name}</h3>
 
-  setProducts(
-   res.data
-  );
- };
+            <p>{product.category}</p>
 
- return(
+            <h4>₹{product.price}</h4>
 
-  <div>
-
-   <h2>Products</h2>
-
-   {products.map(product=>(
-
-    <div key={product.id}>
-
-     <h4>
-      {product.tea_name}
-     </h4>
-
-     <p>
-      ₹{product.price}
-     </p>
-
+            <button onClick={() => addToCart(product.id)}>
+              Add To Cart
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
-
-   ))}
-
-  </div>
-
- );
+  );
 }
 
 export default ProductList;

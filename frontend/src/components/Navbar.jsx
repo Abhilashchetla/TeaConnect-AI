@@ -1,31 +1,22 @@
-import { Link }
-from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function Navbar(){
+function Navbar() {
+  return (
+    <nav>
+      <Link to="/">Login</Link>
 
- return(
+      <Link to="/dashboard">Dashboard</Link>
 
-  <nav>
+      <Link to="/shops">Shops</Link>
 
-   <Link to="/">
-    Login
-   </Link>
+      <Link to="/products">Products</Link>
+      <Link to="/customer">Customer</Link>
 
-   <Link to="/dashboard">
-    Dashboard
-   </Link>
+      <Link to="/cart">Cart</Link>
 
-   <Link to="/shops">
-    Shops
-   </Link>
-
-   <Link to="/products">
-    Products
-   </Link>
-
-  </nav>
-
- );
+      <Link to="/orders">Orders</Link>
+    </nav>
+  );
 }
 
 export default Navbar;
