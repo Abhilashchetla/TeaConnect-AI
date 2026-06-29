@@ -1,32 +1,44 @@
 import React from "react";
-
+import "../styles/Dashboard.css";
 function Dashboard() {
   return (
     <div>
 
       <h1>TeaConnect Dashboard</h1>
 
-      <div className="cards">
+      <div className="dashboard">
 
-        <div className="card">
-          <h3>Shops</h3>
-          <p>Manage Shops</p>
-        </div>
+      <div className="dashboard-card">
 
-        <div className="card">
-          <h3>Products</h3>
-          <p>Manage Products</p>
-        </div>
+      <h2>Shops</h2>
 
-        <div className="card">
-          <h3>Orders</h3>
-          <p>Track Orders</p>
-        </div>
+      <p>Manage Tea Shops</p>
 
-        <div className="card">
-          <h3>Inventory</h3>
-          <p>Stock Tracking</p>
-        </div>
+      </div>
+
+      <div className="dashboard-card">
+
+      <h2>Products</h2>
+
+      <p>Manage Products</p>
+
+      </div>
+
+      <div className="dashboard-card">
+
+      <h2>Orders</h2>
+
+      <p>Customer Orders</p>
+
+      </div>
+
+      <div className="dashboard-card">
+
+      <h2>Inventory</h2>
+
+      <p>Stock Management</p>
+
+      </div>
 
       </div>
 

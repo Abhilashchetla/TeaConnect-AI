@@ -4,22 +4,40 @@ import API from "../services/api";
 function OrderHistory() {
 
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-
         loadOrders();
-
     }, []);
 
     const loadOrders = async () => {
 
-        const userId = 1;
+        try {
 
-        const res = await API.get(`/cart/history/${userId}/`);
+            setLoading(true);
 
-        setOrders(res.data);
+            const userId = 1;
+
+            const res = await API.get(`/cart/history/${userId}/`);
+
+            setOrders(res.data);
+
+        } catch (err) {
+
+            console.error(err);
+            alert("Unable to load orders");
+
+        } finally {
+
+            setLoading(false);
+
+        }
 
     };
+
+    if (loading) {
+        return <h2>Loading Orders...</h2>;
+    }
 
     return (
 
@@ -28,28 +46,35 @@ function OrderHistory() {
             <h1>Order History</h1>
 
             {
+                orders.length === 0 ? (
 
-                orders.map(order => (
+                    <h3>No Orders Found</h3>
 
-                    <div
-                        key={order.id}
-                        style={{
-                            border:"1px solid gray",
-                            padding:"10px",
-                            marginBottom:"10px"
-                        }}
-                    >
+                ) : (
 
-                        <h3>Order #{order.id}</h3>
+                    orders.map(order => (
 
-                        <p>Total : ₹{order.total_amount}</p>
+                        <div
+                            key={order.id}
+                            style={{
+                                border: "1px solid gray",
+                                padding: "10px",
+                                marginBottom: "10px",
+                                borderRadius: "8px"
+                            }}
+                        >
 
-                        <p>Status : {order.status}</p>
+                            <h3>Order #{order.id}</h3>
 
-                    </div>
+                            <p>Total : ₹{order.total_amount}</p>
 
-                ))
+                            <p>Status : {order.status}</p>
 
+                        </div>
+
+                    ))
+
+                )
             }
 
         </div>

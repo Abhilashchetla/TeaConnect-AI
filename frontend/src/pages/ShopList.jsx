@@ -1,60 +1,44 @@
-import React,
-{
- useEffect,
- useState
-}
-from "react";
-
+import React, { useEffect, useState } from "react";
 import API from "../services/api";
 
-function ShopList(){
+function ShopList() {
+  const [shops, setShops] = useState([]);
+  const [loading, setLoading] = useState(true);
 
- const [shops,setShops]
- = useState([]);
+  useEffect(() => {
+    loadShops();
+  }, []);
 
- useEffect(()=>{
+  const loadShops = async () => {
+    try {
+      setLoading(true);
 
-  loadShops();
+      const res = await API.get("/shops/list/");
 
- },[]);
+      setShops(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
- const loadShops=async()=>{
+  if (loading) {
+    return <h2>Loading Shops...</h2>;
+  }
 
-  const res=
-  await API.get(
-   "/shops/list/"
-  );
+  return (
+    <div>
+      <h2>Shops</h2>
 
-  setShops(
-   res.data
-  );
- };
-
- return(
-
-  <div>
-
-   <h2>Shops</h2>
-
-   {shops.map(shop=>(
-
-    <div key={shop.id}>
-
-      <h4>
-       {shop.shop_name}
-      </h4>
-
-      <p>
-       {shop.city}
-      </p>
-
+      {shops.map((shop) => (
+        <div key={shop.id}>
+          <h4>{shop.shop_name}</h4>
+          <p>{shop.city}</p>
+        </div>
+      ))}
     </div>
-
-   ))}
-
-  </div>
-
- );
+  );
 }
 
 export default ShopList;

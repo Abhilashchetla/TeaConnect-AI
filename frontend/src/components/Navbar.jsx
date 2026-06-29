@@ -1,22 +1,34 @@
 import { Link } from "react-router-dom";
+import "../styles/Navbar.css";
 
 function Navbar() {
-  return (
-    <nav>
-      <Link to="/">Login</Link>
 
-      <Link to="/dashboard">Dashboard</Link>
+    return (
 
-      <Link to="/shops">Shops</Link>
+        <nav className="navbar">
 
-      <Link to="/products">Products</Link>
-      <Link to="/customer">Customer</Link>
+            <div className="logo">
+                TeaConnect AI
+            </div>
 
-      <Link to="/cart">Cart</Link>
+            <div className="links">
 
-      <Link to="/orders">Orders</Link>
-    </nav>
-  );
+                <Link to="/dashboard">Dashboard</Link>
+
+                <Link to="/shops">Shops</Link>
+
+                <Link to="/products">Products</Link>
+
+                <Link to="/cart">Cart</Link>
+
+                <Link to="/orders">Orders</Link>
+
+            </div>
+
+        </nav>
+
+    );
+
 }
 
 export default Navbar;
