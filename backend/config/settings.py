@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'reviews',
     'analytics',
     "corsheaders",
+    'wishlist',
 
 ]
 

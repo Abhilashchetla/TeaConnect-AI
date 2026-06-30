@@ -22,6 +22,7 @@ function Navbar() {
                 <Link to="/cart">Cart</Link>
 
                 <Link to="/orders">Orders</Link>
+                <Link to="/profile">Profile</Link>
 
             </div>
 

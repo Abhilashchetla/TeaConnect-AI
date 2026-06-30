@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/Product.css";
+import { Link } from "react-router-dom";
 
 function ProductList() {
 
@@ -84,31 +85,44 @@ if (loading) {
       {/* Products */}
       <div className="product-grid">
 
-        {products
-          .filter((product) => {
-            if (category === "All") return true;
-            return product.category === category;
-          })
-          .filter((product) =>
-            product.tea_name.toLowerCase().includes(search.toLowerCase())
-          )
-          .map((product) => (
+{products
+  .filter((product) => {
+    if (category === "All") return true;
+    return product.category === category;
+  })
+  .filter((product) =>
+    product.tea_name.toLowerCase().includes(search.toLowerCase())
+  )
+    .map((product) => (
 
-            <div className="product-card" key={product.id}>
+      <div className="product-card" key={product.id}>
 
-              <h3>{product.tea_name}</h3>
+        <h3>{product.tea_name}</h3>
 
-              <p>Category: {product.category}</p>
+        <p>Category: {product.category}</p>
 
-              <h4>₹{product.price}</h4>
+        <h4>₹{product.price}</h4>
 
-              <button onClick={() => addToCart(product.id)}>
-                Add To Cart
-              </button>
+        {/* Rating */}
+        <p>⭐⭐⭐⭐☆</p>
 
-            </div>
+        <div className="button-group">
 
-          ))}
+          <button onClick={() => addToCart(product.id)}>
+            Add To Cart
+          </button>
+
+          <Link to={`/products/${product.id}`}>
+            <button className="details-btn">
+              View Details
+            </button>
+          </Link>
+
+        </div>
+
+      </div>
+
+  ))}
 
       </div>
 

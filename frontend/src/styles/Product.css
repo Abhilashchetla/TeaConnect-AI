@@ -106,3 +106,31 @@ cursor:pointer;
 background:#0B8457;
 
 }
+.button-group{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.button-group button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.product-card button{
+    background:#0B8457;
+    color:white;
+}
+
+.details-btn{
+    background:#1976d2 !important;
+    color:white;
+}
+
+.details-btn:hover{
+    background:#1565c0 !important;
+}
