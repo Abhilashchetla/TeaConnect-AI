@@ -14,28 +14,21 @@ function ProductList() {
     loadProducts();
   }, []);
 
-const loadProducts = async () => {
-
+  const loadProducts = async () => {
     try {
+      setLoading(true);
 
-        setLoading(true);
+      const res = await API.get("/products/list");
 
-        const res = await API.get("/products/list");
-
-        setProducts(res.data);
-
+      setProducts(res.data);
     } catch (err) {
-
-        console.log(err);
-
+      console.log(err);
     } finally {
-
-        setLoading(false);
-
+      setLoading(false);
     }
+  };
 
-};
-
+  // Add To Cart
   const addToCart = async (productId) => {
     try {
       await API.post("/cart/add/", {
@@ -50,17 +43,32 @@ const loadProducts = async () => {
       alert("Failed to add to cart");
     }
   };
-if (loading) {
-    return (
-        <h2>Loading Products...</h2>
-    );
-}
+
+  // Wishlist
+  const addToWishlist = async (productId) => {
+    try {
+      await API.post("/wishlist/add/", {
+        user: 1,
+        product: productId,
+      });
+
+      alert("Added to Wishlist");
+    } catch (err) {
+      console.log(err.response?.data);
+      alert("Failed to add to Wishlist");
+    }
+  };
+
+  if (loading) {
+    return <h2>Loading Products...</h2>;
+  }
+
   return (
     <div className="products-container">
 
       <h1>Tea Products ({products.length})</h1>
 
-      {/* Search Box */}
+      {/* Search */}
       <input
         type="text"
         placeholder="Search Tea..."
@@ -82,47 +90,56 @@ if (loading) {
         <option value="Black Tea">Black Tea</option>
       </select>
 
-      {/* Products */}
+      {/* Product Grid */}
       <div className="product-grid">
 
-{products
-  .filter((product) => {
-    if (category === "All") return true;
-    return product.category === category;
-  })
-  .filter((product) =>
-    product.tea_name.toLowerCase().includes(search.toLowerCase())
-  )
-    .map((product) => (
+        {products
+          .filter((product) => {
+            if (category === "All") return true;
+            return product.category === category;
+          })
+          .filter((product) =>
+            product.tea_name.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((product) => (
 
-      <div className="product-card" key={product.id}>
+            <div className="product-card" key={product.id}>
 
-        <h3>{product.tea_name}</h3>
+              <h3>{product.tea_name}</h3>
 
-        <p>Category: {product.category}</p>
+              <p>Category: {product.category}</p>
 
-        <h4>₹{product.price}</h4>
+              <h4>₹{product.price}</h4>
 
-        {/* Rating */}
-        <p>⭐⭐⭐⭐☆</p>
+              {/* Dummy Rating */}
+              <p>⭐⭐⭐⭐☆</p>
 
-        <div className="button-group">
+              <div className="button-group">
 
-          <button onClick={() => addToCart(product.id)}>
-            Add To Cart
-          </button>
+                <button
+                  onClick={() => addToCart(product.id)}
+                >
+                  Add To Cart
+                </button>
 
-          <Link to={`/products/${product.id}`}>
-            <button className="details-btn">
-              View Details
-            </button>
-          </Link>
+                <button
+                  className="wishlist-btn"
+                  onClick={() => addToWishlist(product.id)}
+                >
+                  ❤️ Wishlist
+                </button>
 
-        </div>
+                <Link to={`/products/${product.id}`}>
+                  <button className="details-btn">
+                    View Details
+                  </button>
+                </Link>
 
-      </div>
+              </div>
 
-  ))}
+            </div>
+
+          ))}
 
       </div>
 

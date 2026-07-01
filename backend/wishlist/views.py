@@ -37,3 +37,11 @@ def view_wishlist(request,user_id):
     )
 
     return Response(serializer.data)
+@api_view(["DELETE"])
+def remove_wishlist(request,id):
+
+    item = Wishlist.objects.get(id=id)
+
+    item.delete()
+
+    return Response({"message":"Removed"})

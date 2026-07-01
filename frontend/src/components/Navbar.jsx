@@ -23,6 +23,7 @@ function Navbar() {
 
                 <Link to="/orders">Orders</Link>
                 <Link to="/profile">Profile</Link>
+                <Link to="/wishlist">Wishlist</Link>
 
             </div>
 

@@ -134,3 +134,15 @@ background:#0B8457;
 .details-btn:hover{
     background:#1565c0 !important;
 }
+.wishlist-btn{
+    background:#e91e63;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.wishlist-btn:hover{
+    background:#c2185b;
+}

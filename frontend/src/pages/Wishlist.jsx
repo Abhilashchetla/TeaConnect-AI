@@ -1,47 +1,67 @@
-import {useEffect,useState} from "react";
+import { useEffect, useState } from "react";
 import API from "../services/api";
+import "../styles/Wishlist.css";
 
-function Wishlist(){
+function Wishlist() {
 
-const [wishlist,setWishlist]=useState([]);
+  const [items, setItems] = useState([]);
 
-useEffect(()=>{
+  useEffect(() => {
+    loadWishlist();
+  }, []);
 
-loadWishlist();
+  const loadWishlist = async () => {
+    const res = await API.get("/wishlist/user/1/");
+    setItems(res.data);
+  };
 
-},[]);
+  const removeItem = async (id) => {
 
-const loadWishlist=async()=>{
+    await API.delete(`/wishlist/remove/${id}/`);
 
-const res=await API.get("/wishlist/1/");
+    loadWishlist();
 
-setWishlist(res.data);
+  };
 
-};
+  return (
 
-return(
+    <div className="wishlist-container">
 
-<div>
+      <h1>❤️ My Wishlist</h1>
 
-<h1>Wishlist</h1>
+      {
 
-{
+        items.length === 0 ?
 
-wishlist.map(item=>(
+        <h3>No products in wishlist.</h3>
 
-<div key={item.id}>
+        :
 
-<h3>{item.product}</h3>
+        items.map(item => (
 
-</div>
+          <div className="wishlist-card" key={item.id}>
 
-))
+            <h2>{item.tea_name}</h2>
 
-}
+            <p>Category : {item.category}</p>
 
-</div>
+            <h3>₹{item.price}</h3>
 
-);
+            <button
+              onClick={() => removeItem(item.id)}
+            >
+              Remove
+            </button>
+
+          </div>
+
+        ))
+
+      }
+
+    </div>
+
+  );
 
 }
 

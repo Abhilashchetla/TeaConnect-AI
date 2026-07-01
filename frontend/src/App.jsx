@@ -13,6 +13,7 @@ import Checkout from "./pages/Checkout";
 import OrderHistory from "./pages/OrderHistory";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import Profile from "./pages/Profile";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
 
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/wishlist"element={<Wishlist/>}/>
       </Routes>
     </BrowserRouter>
   );
