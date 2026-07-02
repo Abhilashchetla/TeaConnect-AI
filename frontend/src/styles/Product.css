@@ -146,3 +146,10 @@ background:#0B8457;
 .wishlist-btn:hover{
     background:#c2185b;
 }
+.product-image{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:15px;
+}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/Product.css";
 import { Link } from "react-router-dom";
+import {toast} from "react-toastify";
+
 
 function ProductList() {
 
@@ -37,10 +39,10 @@ function ProductList() {
         quantity: 1,
       });
 
-      alert("Added to cart");
+      toast.success("Added to Cart");
     } catch (err) {
       console.log(err.response?.data);
-      alert("Failed to add to cart");
+      toast.success("Failed to add to Wishlist");
     }
   };
 
@@ -52,10 +54,10 @@ function ProductList() {
         product: productId,
       });
 
-      alert("Added to Wishlist");
+      toast.success("Added to Wishlist");
     } catch (err) {
       console.log(err.response?.data);
-      alert("Failed to add to Wishlist");
+      toast.success("Failed to add to Wishlist");
     }
   };
 
@@ -104,6 +106,9 @@ function ProductList() {
           .map((product) => (
 
             <div className="product-card" key={product.id}>
+               <img src={`http://127.0.0.1:8000${product.image}`} 
+               alt={product.tea_name}
+               className="product-image"/>
 
               <h3>{product.tea_name}</h3>
 
