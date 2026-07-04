@@ -35,3 +35,36 @@ cursor:pointer;
 transform:translateY(-8px);
 
 }
+.welcome-box{
+
+background:#ffffff;
+
+padding:30px;
+
+border-radius:15px;
+
+margin:30px 0;
+
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+.welcome-box h1{
+
+color:#0b5d1e;
+
+font-size:34px;
+
+margin-bottom:10px;
+
+}
+
+.welcome-box p{
+
+font-size:18px;
+
+color:#666;
+
+line-height:1.6;
+
+}

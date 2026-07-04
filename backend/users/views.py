@@ -26,10 +26,22 @@ def register_user(request):
     return Response(
         serializer.errors
     )
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def profile(request):
 
+    user = request.user
+
     return Response({
-        "message":"Protected Route Working"
+
+        "id": user.id,
+
+        "username": user.username,
+
+        "email": user.email,
+
+        "phone": user.phone,
+
+        "role": user.role
+
     })

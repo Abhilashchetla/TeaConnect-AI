@@ -1,0 +1,300 @@
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+.login-container{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#f7f4ec;
+
+}
+
+/* Left Section */
+
+.login-left{
+
+    flex:1;
+
+    background:url("../assets/tea-login.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    position:relative;
+
+}
+
+.overlay{
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(5,60,30,.75);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    padding:80px;
+
+    color:white;
+
+}
+
+.overlay h1{
+
+    font-size:58px;
+
+    margin-bottom:20px;
+
+}
+
+.overlay h2{
+
+    font-size:38px;
+
+    margin-bottom:20px;
+
+}
+
+.overlay p{
+
+    width:75%;
+
+    line-height:35px;
+
+    font-size:20px;
+
+}
+
+/* Right Section */
+
+.login-right{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#fffdf8;
+
+}
+
+.login-card{
+
+    width:430px;
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:20px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
+
+}
+
+.login-card h2{
+
+    text-align:center;
+
+    color:#064420;
+
+    font-size:35px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#666;
+
+    margin:15px 0 35px;
+
+}
+
+.login-card input{
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:20px;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+.login-card input:focus{
+
+    outline:none;
+
+    border-color:#0b8b4d;
+
+    box-shadow:0 0 8px rgba(11,139,77,.25);
+
+}
+
+.login-card button{
+
+    width:100%;
+
+    padding:15px;
+
+    background:#064420;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.login-card button:hover{
+
+    background:#0b8b4d;
+
+    transform:translateY(-2px);
+
+}
+
+.switch-text{
+
+    margin-top:25px;
+
+    text-align:center;
+
+}
+
+.switch-text a{
+
+    color:#064420;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    margin-left:5px;
+
+}
+
+.switch-text a:hover{
+
+    color:#0b8b4d;
+
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+.login-left{
+
+    display:none;
+
+}
+
+.login-right{
+
+    flex:1;
+
+}
+
+.login-card{
+
+    width:90%;
+
+}
+
+}
+/* Role Dropdown */
+
+.role-select{
+
+width:100%;
+
+padding:14px;
+
+margin-top:15px;
+
+margin-bottom:20px;
+
+border-radius:10px;
+
+border:1px solid #ddd;
+
+font-size:16px;
+
+outline:none;
+
+cursor:pointer;
+
+background:white;
+
+transition:.3s;
+
+}
+
+.role-select:hover{
+
+border:1px solid #0b5d1e;
+
+}
+
+.role-select:focus{
+
+border:1px solid #0b5d1e;
+
+box-shadow:0 0 5px rgba(11,93,30,.3);
+
+}
+
+.role-select option{
+
+padding:10px;
+
+font-size:15px;
+
+}
+.shop-fields{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-top:15px;
+}
+
+.shop-fields input{
+    width:100%;
+}

@@ -1,6 +1,5 @@
 from django.db import models
 from shops.models import Shop
-
 class Product(models.Model):
 
     CATEGORY_CHOICES = [

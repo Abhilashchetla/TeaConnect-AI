@@ -1,0 +1,85 @@
+.loader-container{
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f9f8f3;
+
+}
+
+.loader-card{
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.15);
+
+}
+
+.loader-card img{
+
+    width:90px;
+
+    margin-bottom:25px;
+
+}
+
+.loader-card h2{
+
+    margin-top:20px;
+
+    color:#064420;
+
+}
+
+.loader-card p{
+
+    margin-top:10px;
+
+    color:#666;
+
+}
+
+.tea-loader{
+
+    width:65px;
+
+    height:65px;
+
+    border:6px solid #d8d8d8;
+
+    border-top:6px solid #064420;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+    margin:auto;
+
+}
+
+@keyframes spin{
+
+0%{
+
+transform:rotate(0deg);
+
+}
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}

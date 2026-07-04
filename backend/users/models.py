@@ -1,6 +1,7 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class User(models.Model):
+class User(AbstractUser):
 
     ROLE_CHOICES = [
         ('customer', 'Customer'),
@@ -10,7 +11,10 @@ class User(models.Model):
         ('admin', 'Admin'),
     ]
 
-    name = models.CharField(max_length=100)
+    username = models.CharField(
+        max_length=100,
+        unique=True
+    )
 
     email = models.EmailField(
         unique=True
@@ -20,18 +24,15 @@ class User(models.Model):
         max_length=15
     )
 
-    password = models.CharField(
-        max_length=255
-    )
-
     role = models.CharField(
         max_length=20,
-        choices=ROLE_CHOICES
+        choices=ROLE_CHOICES,
+        default="customer"
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    USERNAME_FIELD = "email"
+
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
-        return self.name
+        return self.email

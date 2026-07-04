@@ -1,48 +1,75 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import "../styles/CustomerDashboard.css";
 
-function CustomerDashboard(){
+function CustomerDashboard() {
 
-return(
+    const username = localStorage.getItem("username");
 
-<div>
+    return (
 
-<h1>Customer Dashboard</h1>
+        <div className="customer-dashboard">
 
-<Link to="/products">
+    {/* Welcome Section */}
+    <div className="welcome-box">
 
-Products
+        <h1>
+            Hi {username} 👋
+        </h1>
 
-</Link>
+        <p>
+            Welcome to TeaConnect AI.
+            <br />
+            Enjoy fresh tea from nearby tea shops.
+        </p>
 
-<br/>
+    </div>
 
-<Link to="/cart">
+    {/* ADD THIS HERE */}
 
-Cart
+    <div className="about-section">
 
-</Link>
+        <h2>Why TeaConnect AI?</h2>
 
-<br/>
+        <p>
 
-<Link to="/checkout">
+            TeaConnect AI is a smart tea ordering platform
+            that connects tea lovers with nearby tea shops.
 
-Checkout
+            Browse premium teas, place orders, track deliveries,
+            manage your wishlist, and enjoy a personalized tea
+            shopping experience with AI-powered recommendations.
 
-</Link>
+        </p>
 
-<br/>
+    </div>
 
-<Link to="/orders">
+            <div className="dashboard-grid">
 
-Orders
+                <Link to="/products" className="dashboard-card">
+                    <h2>🫖 Products</h2>
+                    <p>Browse Tea Products</p>
+                </Link>
 
-</Link>
+                <Link to="/cart" className="dashboard-card">
+                    <h2>🛒 Cart</h2>
+                    <p>View Shopping Cart</p>
+                </Link>
 
-</div>
+                <Link to="/checkout" className="dashboard-card">
+                    <h2>💳 Checkout</h2>
+                    <p>Place Your Order</p>
+                </Link>
 
-);
+                <Link to="/orders" className="dashboard-card">
+                    <h2>📦 Orders</h2>
+                    <p>Track Your Orders</p>
+                </Link>
 
+            </div>
+
+        </div>
+
+    );
 }
 
 export default CustomerDashboard;

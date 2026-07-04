@@ -1,20 +1,77 @@
 from rest_framework import serializers
-from .models import User
 from django.contrib.auth.hashers import make_password
+
+from .models import User
+from shops.models import Shop
+
 
 class RegisterSerializer(serializers.ModelSerializer):
 
+    shop_name = serializers.CharField(
+        required=False,
+        write_only=True
+    )
+
+    shop_location = serializers.CharField(
+        required=False,
+        write_only=True
+    )
+
     class Meta:
+
         model = User
 
-        fields = '__all__'
+        fields = [
+
+            "username",
+            "email",
+            "phone",
+            "password",
+            "role",
+
+            "shop_name",
+            "shop_location"
+
+        ]
 
     def create(self, validated_data):
 
-        validated_data['password'] = make_password(
-            validated_data['password']
+        shop_name = validated_data.pop(
+            "shop_name",
+            None
         )
 
-        return User.objects.create(
-            **validated_data
+        shop_location = validated_data.pop(
+            "shop_location",
+            None
         )
+
+        user = User.objects.create(
+
+            username=validated_data["username"],
+
+            email=validated_data["email"],
+
+            phone=validated_data["phone"],
+
+            role=validated_data["role"],
+
+            password=make_password(
+                validated_data["password"]
+            )
+
+        )
+
+        if user.role == "owner":
+
+            Shop.objects.create(
+
+                owner=user,
+
+                shop_name=shop_name,
+
+                location=shop_location
+
+            )
+
+        return user

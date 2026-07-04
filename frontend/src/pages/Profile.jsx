@@ -13,7 +13,7 @@ function Profile() {
 
     const loadProfile=async()=>{
 
-        const res=await API.get("/users/profile/1/");
+        const res=await API.get("/users/profile/");
 
         setUser(res.data);
 

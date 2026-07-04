@@ -1,69 +1,111 @@
 import React, { useState } from "react";
 import API from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import "../styles/Login.css";
 
 function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
 
   const loginUser = async () => {
     try {
+      // Login
       const res = await API.post("/token/", {
-        email,
-        password,
+        email: email.trim(),
+
+        password: password.trim(),
       });
 
-      // Save token
-      localStorage.setItem("token", res.data.access);
+      // Save Tokens
+
+      localStorage.setItem("access", res.data.access);
+
       localStorage.setItem("refresh", res.data.refresh);
 
-      // Save user id (backend must send this)
-      localStorage.setItem("user_id", res.data.user_id);
+      API.defaults.headers.common["Authorization"] =
+        `Bearer ${res.data.access}`;
 
-      // Set Authorization header
-      API.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${res.data.access}`;
+      // Get Logged-in User
 
-      alert("Login Successful!");
+      const profile = await API.get("/users/profile/");
 
-      navigate("/customer");
+      console.log(profile.data);
+
+      localStorage.setItem("username", profile.data.username);
+
+      localStorage.setItem("email", profile.data.email);
+
+      localStorage.setItem("role", profile.data.role);
+
+      toast.success(`Welcome ${profile.data.username}!`);
+
+      // Role Based Login
+
+      if (profile.data.role === "customer") {
+        navigate("/customer");
+      } else if (profile.data.role === "owner") {
+        navigate("/dashboard");
+      } else if (profile.data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
-      console.error(err);
+      console.log(err.response?.data);
 
-      alert("Invalid Email or Password");
+      toast.error("Invalid Email or Password");
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="login-container">
+      <div className="login-left">
+        <div className="overlay">
+          <h1>☕ TeaConnect AI</h1>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+          <h2>Fresh Tea. Fresh Experience.</h2>
 
-      <br />
-      <br />
+          <p>
+            Order premium tea directly from nearby tea shops. Discover fresh
+            flavors, track your orders, manage your cart, and enjoy a smarter
+            tea shopping experience.
+          </p>
+        </div>
+      </div>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <div className="login-right">
+        <div className="login-card">
+          <h2>Welcome Back</h2>
 
-      <br />
-      <br />
+          <p className="subtitle">Login to continue your Tea Journey</p>
 
-      <button onClick={loginUser}>
-        Login
-      </button>
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button onClick={loginUser}>Login</button>
+
+          <p className="switch-text">
+            New to TeaConnect?
+            <Link to="/register">Create Account</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
