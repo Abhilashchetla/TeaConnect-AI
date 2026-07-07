@@ -1,0 +1,197 @@
+.shops-page {
+  min-height: 600px;
+  padding: 50px 60px;
+  background-color: #f4f7f5;
+}
+
+.shops-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.shops-header h1 {
+  color: #064e2b;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.shops-header p {
+  color: #666;
+  font-size: 17px;
+}
+
+.shops-grid {
+  max-width: 1200px;
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: 30px;
+}
+
+.shop-card {
+  background-color: white;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.1);
+
+  transition: transform 0.2s,
+              box-shadow 0.2s;
+}
+
+.shop-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.shop-icon {
+  height: 180px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #064e2b,
+      #0b8f50
+    );
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 75px;
+}
+
+.shop-information {
+  padding: 25px;
+}
+
+.shop-information h2 {
+  color: #064e2b;
+
+  font-size: 24px;
+
+  margin: 0 0 15px;
+}
+
+.shop-location {
+  color: #444;
+
+  font-size: 16px;
+
+  margin-bottom: 10px;
+}
+
+.shop-address {
+  color: #777;
+
+  font-size: 14px;
+
+  min-height: 40px;
+
+  line-height: 1.5;
+}
+
+.shop-rating {
+  margin: 15px 0;
+
+  color: #f4b400;
+}
+
+.shop-rating span {
+  margin-left: 10px;
+
+  color: #666;
+
+  font-size: 14px;
+}
+
+.view-shop-button {
+  width: 100%;
+
+  padding: 12px;
+
+  margin-top: 10px;
+
+  background-color: #08783f;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 7px;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.view-shop-button:hover {
+  background-color: #065f32;
+}
+
+.no-shops {
+  max-width: 600px;
+
+  margin: 50px auto;
+
+  padding: 50px;
+
+  background-color: white;
+
+  text-align: center;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.no-shops h2 {
+  color: #064e2b;
+}
+
+.shops-loading {
+  min-height: 500px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #064e2b;
+
+  font-size: 24px;
+
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+
+  .shops-page {
+    padding: 30px 20px;
+  }
+
+  .shops-header h1 {
+    font-size: 28px;
+  }
+
+  .shops-grid {
+    grid-template-columns: 1fr;
+  }
+}

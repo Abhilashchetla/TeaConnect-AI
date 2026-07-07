@@ -6,7 +6,8 @@ function CreateShop() {
   const [shop,setShop] = useState({
     shop_name:"",
     address:"",
-    city:""
+    city:"",
+    state: "",
   });
 
   const handleChange=(e)=>{
@@ -16,15 +17,31 @@ function CreateShop() {
     });
   };
 
-  const submitShop=async()=>{
+const submitShop = async () => {
 
-    await API.post(
+  try {
+
+    const response = await API.post(
       "/shops/create/",
       shop
     );
 
+    console.log(response.data);
+
     alert("Shop Created");
-  };
+
+  } catch (error) {
+
+    console.log(error.response?.data);
+
+    alert(
+      error.response?.data?.error ||
+      "Failed to create shop"
+    );
+
+  }
+
+};
 
   return(
     <div>
@@ -46,6 +63,12 @@ function CreateShop() {
       <input
         name="city"
         placeholder="City"
+        onChange={handleChange}
+      />
+      <input
+        name="state"
+        placeholder="State"
+        value={shop.state}
         onChange={handleChange}
       />
 

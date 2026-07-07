@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/Product.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {toast} from "react-toastify";
 
 
@@ -11,24 +11,41 @@ function ProductList() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("All");
+  const { shopId } = useParams();
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [shopId]);
 
   const loadProducts = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const res = await API.get("/products/list");
+    let res;
 
-      setProducts(res.data);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
+    if (shopId) {
+      res = await API.get(
+        `/products/shop/${shopId}/`
+      );
+    } else {
+      res = await API.get(
+        "/products/list/"
+      );
     }
-  };
+
+    console.log("Products:", res.data);
+
+    setProducts(res.data);
+
+  } catch (err) {
+    console.log(
+      "Product Error:",
+      err.response?.data
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Add To Cart
   const addToCart = async (productId) => {
@@ -106,9 +123,17 @@ function ProductList() {
           .map((product) => (
 
             <div className="product-card" key={product.id}>
-               <img src={`http://127.0.0.1:8000${product.image}`} 
-               alt={product.tea_name}
-               className="product-image"/>
+              <img
+                src={
+                  product.image
+                    ? product.image.startsWith("http")
+                      ? product.image
+                      : `http://127.0.0.1:8000${product.image}`
+                    : "/default-tea.png"
+                }
+                alt={product.tea_name}
+                className="product-image"
+              />
 
               <h3>{product.tea_name}</h3>
 

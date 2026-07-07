@@ -24,7 +24,7 @@ function OwnerDashboard() {
 
       setShop(shopRes.data);
 
-      const productRes = await API.get("/products/list");
+      const productRes = await API.get("/products/list/");
 
       setProducts(productRes.data);
 
@@ -58,10 +58,11 @@ function OwnerDashboard() {
         <h2>☕ TeaConnect AI</h2>
 
         <Link to="/owner-dashboard">Dashboard</Link>
+        <Link to="/create-shop">Create Shop</Link>
 
         <Link to="/my-shop">My Shop</Link>
 
-        <Link to="/products">Products</Link>
+        <Link to="/owner/products">Products</Link>
 
         <Link to="/create-product">Add Product</Link>
 

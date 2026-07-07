@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
+import "../styles/ShopList.css";
+import { useNavigate } from "react-router-dom";
 
 function ShopList() {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadShops();
@@ -11,32 +14,65 @@ function ShopList() {
 
   const loadShops = async () => {
     try {
-      setLoading(true);
+      const response = await API.get("/shops/list/");
 
-      const res = await API.get("/shops/list/");
+      console.log("Shops:", response.data);
 
-      setShops(res.data);
-    } catch (err) {
-      console.error(err);
+      setShops(response.data);
+    } catch (error) {
+      console.log("Shop Error:", error.response?.data);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return <h2>Loading Shops...</h2>;
+    return <div className="shops-loading">Loading Tea Shops...</div>;
   }
 
   return (
-    <div>
-      <h2>Shops</h2>
+    <div className="shops-page">
+      <div className="shops-header">
+        <h1>Explore Tea Shops</h1>
 
-      {shops.map((shop) => (
-        <div key={shop.id}>
-          <h4>{shop.shop_name}</h4>
-          <p>{shop.city}</p>
+        <p>Discover fresh and delicious tea from our trusted tea shops</p>
+      </div>
+
+      {shops.length === 0 ? (
+        <div className="no-shops">
+          <h2>No Tea Shops Available</h2>
+
+          <p>Please check again later.</p>
         </div>
-      ))}
+      ) : (
+        <div className="shops-grid">
+          {shops.map((shop) => (
+            <div className="shop-card" key={shop.id}>
+              <div className="shop-icon">☕</div>
+
+              <div className="shop-information">
+                <h2>{shop.shop_name}</h2>
+
+                <p className="shop-location">📍 {shop.city}</p>
+
+                {shop.address && <p className="shop-address">{shop.address}</p>}
+
+                <div className="shop-rating">
+                  ⭐⭐⭐⭐⭐
+                  <span>{shop.rating || "New Shop"}</span>
+                </div>
+
+                <button
+                  className="view-shop-button"
+                  onClick={() => navigate(`/shops/${shop.id}/products`)}
+                >
+                  View Products
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

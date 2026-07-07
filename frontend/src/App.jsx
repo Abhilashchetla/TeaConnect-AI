@@ -26,14 +26,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import OwnerProducts from "./pages/OwnerProducts";
+
+
 function App() {
   return (
     <BrowserRouter>
-      {/* Navbar automatically hides on Login/Register */}
       <Navbar />
 
       <Routes>
-        {/* Authentication */}
 
         <Route path="/" element={<Login />} />
 
@@ -50,15 +51,23 @@ function App() {
           }
         />
 
-        <Route
-          path="/products"
-          element={
-            <ProtectedRoute allowedRoles={["customer"]}>
-              <ProductList />
-            </ProtectedRoute>
-          }
-        />
+<Route
+  path="/products"
+  element={
+    <ProtectedRoute allowedRoles={["customer"]}>
+      <ProductList />
+    </ProtectedRoute>
+  }
+/>
 
+<Route
+  path="/shops/:shopId/products"
+  element={
+    <ProtectedRoute allowedRoles={["customer"]}>
+      <ProductList />
+    </ProtectedRoute>
+  }
+/>
         <Route
           path="/shops"
           element={
@@ -119,7 +128,7 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
-              <Dashboard />
+              <OwnerDashboard />
             </ProtectedRoute>
           }
         />
@@ -176,6 +185,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+      path="/owner/products"
+      element={
+        <ProtectedRoute allowedRoles={["owner"]}>
+          <OwnerProducts />
+        </ProtectedRoute>
+      }
+    />
+
       </Routes>
       <Footer />
 
