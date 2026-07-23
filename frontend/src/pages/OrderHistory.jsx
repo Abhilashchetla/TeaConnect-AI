@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-
+import "../styles/OrderHistory.css";
 function OrderHistory() {
 
     const [orders, setOrders] = useState([]);
@@ -41,45 +41,96 @@ function OrderHistory() {
 
     return (
 
-        <div>
+<div className="order-container">
 
-            <h1>Order History</h1>
+<h1 className="order-title">
 
-            {
-                orders.length === 0 ? (
+My Orders
 
-                    <h3>No Orders Found</h3>
+</h1>
 
-                ) : (
+{orders.length===0?
 
-                    orders.map(order => (
+<div className="empty-orders">
 
-                        <div
-                            key={order.id}
-                            style={{
-                                border: "1px solid gray",
-                                padding: "10px",
-                                marginBottom: "10px",
-                                borderRadius: "8px"
-                            }}
-                        >
+<h1>📦</h1>
 
-                            <h3>Order #{order.id}</h3>
+<h2>No Orders Yet</h2>
 
-                            <p>Total : ₹{order.total_amount}</p>
+<p>Start shopping and place your first order.</p>
 
-                            <p>Status : {order.status}</p>
+</div>
 
-                        </div>
+:
 
-                    ))
+orders.map(order=>(
 
-                )
-            }
+<div
+key={order.id}
+className="order-card"
+>
 
-        </div>
+<div className="order-header">
 
-    );
+<h2 className="order-id">
+
+Order #{order.id}
+
+</h2>
+
+<span
+className={`order-status ${order.status.toLowerCase().replace(/\s/g,"")}`}
+>
+
+{order.status}
+
+</span>
+
+</div>
+
+<div className="order-details">
+
+<div className="detail-box">
+
+<h4>Total Amount</h4>
+
+<p>₹{order.total_amount}</p>
+
+</div>
+
+<div className="detail-box">
+
+<h4>Status</h4>
+
+<p>{order.status}</p>
+
+</div>
+
+<div className="detail-box">
+
+<h4>Order Date</h4>
+
+<p>{new Date(order.created_at).toLocaleDateString()}</p>
+
+</div>
+
+</div>
+
+<button className="track-btn">
+
+Track Order
+
+</button>
+
+</div>
+
+))
+
+}
+
+</div>
+
+);
 
 }
 

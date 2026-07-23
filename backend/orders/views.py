@@ -152,3 +152,18 @@ def update_order_status(request, order_id):
     return Response({
         "message": "Status Updated"
     })
+
+@api_view(["PUT"])
+def update_cart_quantity(request, id):
+
+    cart = Cart.objects.get(id=id)
+
+    quantity = request.data.get("quantity")
+
+    cart.quantity = quantity
+
+    cart.save()
+
+    return Response({
+        "message": "Quantity Updated"
+    })

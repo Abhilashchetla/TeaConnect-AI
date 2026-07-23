@@ -8,7 +8,8 @@ from .views import (
     place_order,
     order_history,
     order_status,
-    update_order_status
+    update_order_status,
+    update_cart_quantity,
 
 )
 
@@ -21,4 +22,5 @@ urlpatterns = [
     path('history/<int:user_id>/',order_history),
     path('status/<int:order_id>/',order_status),
     path('update-status/<int:order_id>/',update_order_status),
+    path("update/<int:id>/",update_cart_quantity),
 ]
