@@ -132,34 +132,30 @@ function CreateProduct() {
             <label>Category</label>
 
             <select
-              name="category"
-              value={product.category}
-              onChange={handleChange}
-            >
-              <option value="">
-                Select Category
-              </option>
+  name="category"
+  value={product.category}
+  onChange={handleChange}
+>
+  <option value="">Select Category</option>
 
-              <option value="Masala Tea">
-                Masala Tea
-              </option>
+  <optgroup label="Tea">
+    <option value="Masala Tea">Masala Tea</option>
+    <option value="Ginger Tea">Ginger Tea</option>
+    <option value="Green Tea">Green Tea</option>
+    <option value="Black Tea">Black Tea</option>
+    <option value="Milk Tea">Milk Tea</option>
+    <option value="Lemon Tea">Lemon Tea</option>
+  </optgroup>
 
-              <option value="Ginger Tea">
-                Ginger Tea
-              </option>
+  <optgroup label="Biscuits">
+    <option value="Osmania Biscuit">Osmania Biscuit</option>
+    <option value="Parle-G">Parle-G</option>
+    <option value="Good Day">Good Day</option>
+    <option value="Marie Gold">Marie Gold</option>
+    <option value="Cookies">Cookies</option>
+  </optgroup>
 
-              <option value="Green Tea">
-                Green Tea
-              </option>
-
-              <option value="Lemon Tea">
-                Lemon Tea
-              </option>
-
-              <option value="Black Tea">
-                Black Tea
-              </option>
-            </select>
+</select>
           </div>
 
 

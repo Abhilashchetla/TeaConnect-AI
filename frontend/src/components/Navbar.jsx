@@ -2,87 +2,109 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const location = useLocation();
-    const navigate = useNavigate();
+  // Hide Navbar on Login & Register pages
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/register"
+  ) {
+    return null;
+  }
 
-    // Hide Navbar on Login & Register
-    if (
-        location.pathname === "/" ||
-        location.pathname === "/register"
-    ) {
-        return null;
-    }
+  const loggedIn = localStorage.getItem("access");
+  const role = localStorage.getItem("role");
 
-    const loggedIn = localStorage.getItem("access");
+  const dashboardPath =
+    role === "owner"
+      ? "/dashboard"
+      : role === "customer"
+      ? "/customer"
+      : "/";
 
-    const logout = () => {
+  const logout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("user_id");
 
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        localStorage.removeItem("user_id");
+    navigate("/", { replace: true });
+  };
 
-        navigate("/");
+  return (
+    <nav className="navbar">
+      <div className="logo">
+        ☕ <span>TeaConnect AI</span>
+      </div>
 
-    };
+      <div className="nav-links">
 
-    return (
+        <Link to={dashboardPath}>
+          Dashboard
+        </Link>
 
-        <nav className="navbar">
+        {role === "customer" && (
+          <>
+            <Link to="/shops">
+              Tea Shops
+            </Link>
 
-            <div className="logo">
+            <Link to="/products">
+              Products
+            </Link>
 
-                ☕ <span>TeaConnect AI</span>
+            <Link to="/cart">
+              Cart
+            </Link>
 
-            </div>
+            <Link to="/orders">
+              Orders
+            </Link>
 
-            <div className="nav-links">
+            <Link to="/wishlist">
+              Wishlist
+            </Link>
 
-                <Link to="/dashboard">
-                    Dashboard
-                </Link>
+            <Link to="/profile">
+              Profile
+            </Link>
+          </>
+        )}
 
-                <Link to="/shops">
-                    Tea Shops
-                </Link>
+        {role === "owner" && (
+          <>
+            <Link to="/create-shop">
+              My Shop
+            </Link>
 
-                <Link to="/products">
-                    Products
-                </Link>
+            <Link to="/create-product">
+              Add Product
+            </Link>
 
-                <Link to="/cart">
-                    Cart
-                </Link>
+            <Link to="/owner/products">
+              Inventory
+            </Link>
 
-                <Link to="/orders">
-                    Orders
-                </Link>
+            <Link to="/profile">
+              Profile
+            </Link>
+          </>
+        )}
 
-                <Link to="/wishlist">
-                    Wishlist
-                </Link>
-
-                <Link to="/profile">
-                    Profile
-                </Link>
-
-                {loggedIn && (
-
-                    <button
-                        className="logout-btn"
-                        onClick={logout}
-                    >
-                        Logout
-                    </button>
-
-                )}
-
-            </div>
-
-        </nav>
-
-    );
-
+        {loggedIn && (
+          <button
+            className="logout-btn"
+            onClick={logout}
+          >
+            Logout
+          </button>
+        )}
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/Product.css";
 import { Link, useParams } from "react-router-dom";
-import {toast} from "react-toastify";
-
+import { toast } from "react-toastify";
 
 function ProductList() {
-
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -18,34 +16,26 @@ function ProductList() {
   }, [shopId]);
 
   const loadProducts = async () => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    let res;
+      let res;
 
-    if (shopId) {
-      res = await API.get(
-        `/products/shop/${shopId}/`
-      );
-    } else {
-      res = await API.get(
-        "/products/list/"
-      );
+      if (shopId) {
+        res = await API.get(`/products/shop/${shopId}/`);
+      } else {
+        res = await API.get("/products/list/");
+      }
+
+      console.log("Products:", res.data);
+
+      setProducts(res.data);
+    } catch (err) {
+      console.log("Product Error:", err.response?.data);
+    } finally {
+      setLoading(false);
     }
-
-    console.log("Products:", res.data);
-
-    setProducts(res.data);
-
-  } catch (err) {
-    console.log(
-      "Product Error:",
-      err.response?.data
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // Add To Cart
   const addToCart = async (productId) => {
@@ -84,7 +74,6 @@ function ProductList() {
 
   return (
     <div className="products-container">
-
       <h1>Tea Products ({products.length})</h1>
 
       {/* Search */}
@@ -96,32 +85,38 @@ function ProductList() {
         className="search-box"
       />
 
-      {/* Category Filter */}
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         className="category-filter"
       >
         <option value="All">All</option>
+
+        <option value="Masala Tea">Masala Tea</option>
         <option value="Ginger Tea">Ginger Tea</option>
-        <option value="Milk Tea">Milk Tea</option>
         <option value="Green Tea">Green Tea</option>
         <option value="Black Tea">Black Tea</option>
+        <option value="Milk Tea">Milk Tea</option>
+        <option value="Lemon Tea">Lemon Tea</option>
+
+        <option value="Osmania Biscuit">Osmania Biscuit</option>
+        <option value="Parle-G">Parle-G</option>
+        <option value="Good Day">Good Day</option>
+        <option value="Marie Gold">Marie Gold</option>
+        <option value="Cookies">Cookies</option>
       </select>
 
       {/* Product Grid */}
       <div className="product-grid">
-
         {products
           .filter((product) => {
             if (category === "All") return true;
             return product.category === category;
           })
           .filter((product) =>
-            product.tea_name.toLowerCase().includes(search.toLowerCase())
+            product.tea_name.toLowerCase().includes(search.toLowerCase()),
           )
           .map((product) => (
-
             <div className="product-card" key={product.id}>
               <img
                 src={
@@ -145,10 +140,7 @@ function ProductList() {
               <p>⭐⭐⭐⭐☆</p>
 
               <div className="button-group">
-
-                <button
-                  onClick={() => addToCart(product.id)}
-                >
+                <button onClick={() => addToCart(product.id)}>
                   Add To Cart
                 </button>
 
@@ -160,19 +152,12 @@ function ProductList() {
                 </button>
 
                 <Link to={`/products/${product.id}`}>
-                  <button className="details-btn">
-                    View Details
-                  </button>
+                  <button className="details-btn">View Details</button>
                 </Link>
-
               </div>
-
             </div>
-
           ))}
-
       </div>
-
     </div>
   );
 }

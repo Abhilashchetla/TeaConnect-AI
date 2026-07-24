@@ -3,11 +3,18 @@ from shops.models import Shop
 class Product(models.Model):
 
     CATEGORY_CHOICES = [
-        ('Masala Tea', 'Masala Tea'),
-        ('Ginger Tea', 'Ginger Tea'),
-        ('Green Tea', 'Green Tea'),
-        ('Lemon Tea', 'Lemon Tea'),
-        ('Black Tea', 'Black Tea'),
+    ("Masala Tea", "Masala Tea"),
+    ("Ginger Tea", "Ginger Tea"),
+    ("Green Tea", "Green Tea"),
+    ("Black Tea", "Black Tea"),
+    ("Milk Tea", "Milk Tea"),
+    ("Lemon Tea", "Lemon Tea"),
+
+    ("Osmania Biscuit", "Osmania Biscuit"),
+    ("Parle-G", "Parle-G"),
+    ("Good Day", "Good Day"),
+    ("Marie Gold", "Marie Gold"),
+    ("Cookies", "Cookies"),
     ]
 
     shop = models.ForeignKey(
