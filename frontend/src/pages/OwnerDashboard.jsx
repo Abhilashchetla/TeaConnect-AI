@@ -30,7 +30,7 @@ function OwnerDashboard() {
 
       // Replace later with owner orders API
 
-      const orderRes = await API.get("/cart/history/1/");
+     const orderRes=await API.get("/cart/owner-orders/");
 
       setOrders(orderRes.data);
     } catch (err) {

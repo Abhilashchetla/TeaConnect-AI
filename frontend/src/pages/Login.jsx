@@ -41,6 +41,7 @@ function Login() {
       localStorage.setItem("email", profile.data.email);
 
       localStorage.setItem("role", profile.data.role);
+      localStorage.setItem("user_id", profile.data.id);
 
       toast.success(`Welcome ${profile.data.username}!`);
 

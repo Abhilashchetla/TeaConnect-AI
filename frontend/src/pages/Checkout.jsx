@@ -7,8 +7,7 @@ function Checkout() {
 
     const placeOrder = async () => {
 
-        const userId = 1;
-
+        const userId = localStorage.getItem("user_id");
         try {
 
             const res = await API.post(`/cart/place/${userId}/`);

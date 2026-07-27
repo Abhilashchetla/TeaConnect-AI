@@ -28,14 +28,13 @@ import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import OwnerProducts from "./pages/OwnerProducts";
 
-
+import OwnerOrders from "./pages/OwnerOrders";
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
 
       <Routes>
-
         <Route path="/" element={<Login />} />
 
         <Route path="/register" element={<Register />} />
@@ -51,23 +50,23 @@ function App() {
           }
         />
 
-<Route
-  path="/products"
-  element={
-    <ProtectedRoute allowedRoles={["customer"]}>
-      <ProductList />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute allowedRoles={["customer"]}>
+              <ProductList />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/shops/:shopId/products"
-  element={
-    <ProtectedRoute allowedRoles={["customer"]}>
-      <ProductList />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/shops/:shopId/products"
+          element={
+            <ProtectedRoute allowedRoles={["customer"]}>
+              <ProductList />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/shops"
           element={
@@ -116,7 +115,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRoute allowedRoles={["customer"]}>
+            <ProtectedRoute allowedRoles={["customer", "owner"]}>
               <Profile />
             </ProtectedRoute>
           }
@@ -186,14 +185,21 @@ function App() {
           }
         />
         <Route
-      path="/owner/products"
-      element={
-        <ProtectedRoute allowedRoles={["owner"]}>
-          <OwnerProducts />
-        </ProtectedRoute>
-      }
-    />
-
+          path="/owner/products"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <OwnerProducts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/owner-orders"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <OwnerOrders />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Footer />
 

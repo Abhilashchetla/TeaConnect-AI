@@ -84,9 +84,13 @@ function Navbar() {
               Add Product
             </Link>
 
-            <Link to="/owner/products">
-              Inventory
-            </Link>
+<Link to="/owner-orders">
+    Orders
+</Link>
+
+<Link to="/owner/products">
+    Inventory
+</Link>
 
             <Link to="/profile">
               Profile

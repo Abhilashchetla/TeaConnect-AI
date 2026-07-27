@@ -2,12 +2,7 @@ from rest_framework import serializers
 from .models import Cart, Order, OrderItem
 
 
-from rest_framework import serializers
-from .models import Cart, Order, OrderItem
-
-from rest_framework import serializers
-from .models import Cart
-
+# ---------------- CART ---------------- #
 
 class CartSerializer(serializers.ModelSerializer):
 
@@ -31,18 +26,69 @@ class CartSerializer(serializers.ModelSerializer):
             "product",
             "quantity",
             "product_name",
-            "price"
+            "price",
         ]
 
-class OrderSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Order
-        fields = '__all__'
-
+# ---------------- ORDER ITEM ---------------- #
 
 class OrderItemSerializer(serializers.ModelSerializer):
 
+    product_name = serializers.CharField(
+        source="product.tea_name",
+        read_only=True
+    )
+
     class Meta:
         model = OrderItem
-        fields = '__all__'
+        fields = [
+            "id",
+            "product",
+            "product_name",
+            "quantity",
+            "price",
+        ]
+
+
+# ---------------- ORDER ---------------- #
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    customer_name = serializers.CharField(
+        source="user.username",
+        read_only=True
+    )
+
+    customer_phone = serializers.CharField(
+        source="user.phone",
+        read_only=True
+    )
+
+    customer_email = serializers.CharField(
+        source="user.email",
+        read_only=True
+    )
+
+    items = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Order
+        fields = [
+            "id",
+            "customer_name",
+            "customer_phone",
+            "customer_email",
+            "total_amount",
+            "status",
+            "created_at",
+            "items",
+        ]
+
+    def get_items(self, obj):
+
+        items = OrderItem.objects.filter(order=obj)
+
+        return OrderItemSerializer(
+            items,
+            many=True
+        ).data

@@ -45,3 +45,19 @@ def profile(request):
         "role": user.role
 
     })
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_profile(request):
+
+    user = request.user
+
+    user.username = request.data.get("username", user.username)
+    user.phone = request.data.get("phone", user.phone)
+
+    user.save()
+
+    return Response({
+        "message": "Profile Updated Successfully"
+    })
+

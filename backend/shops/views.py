@@ -69,3 +69,52 @@ def shop_detail(request, id):
     serializer = ShopSerializer(shop)
 
     return Response(serializer.data)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def my_shop(request):
+
+    try:
+
+        shop = Shop.objects.get(owner=request.user)
+
+        serializer = ShopSerializer(shop)
+
+        return Response(serializer.data)
+
+    except Shop.DoesNotExist:
+
+        return Response(
+            {"error": "Shop not found"},
+            status=404
+        )
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_shop(request):
+
+    try:
+
+        shop = Shop.objects.get(owner=request.user)
+
+    except Shop.DoesNotExist:
+
+        return Response(
+            {"error": "Shop not found"},
+            status=404
+        )
+
+    serializer = ShopSerializer(
+        shop,
+        data=request.data,
+        partial=True
+    )
+
+    if serializer.is_valid():
+
+        serializer.save()
+
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=400)

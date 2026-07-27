@@ -23,11 +23,10 @@ function MyShop() {
 
         try {
 
-            const res = await API.get("/shops/list/");
+            const res = await API.get("/shops/my-shop/");
 
-            if (res.data.length > 0) {
-                setShop(res.data[0]); // Later replace with logged-in owner's shop
-            }
+            setShop(res.data);
+            
 
         } catch (err) {
 
@@ -57,7 +56,7 @@ function MyShop() {
 
         try {
 
-            await API.put(`/shops/update/${shop.id}/`, shop);
+            await API.put("/shops/update/", shop);
 
             alert("Shop Updated Successfully");
 

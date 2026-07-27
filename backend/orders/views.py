@@ -1,9 +1,12 @@
 from django.shortcuts import render
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from .models import Cart,Order,OrderItem
 from .serializers import CartSerializer,OrderItemSerializer,OrderSerializer
+from shops.models import Shop
+from products.models import Product
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['POST'])
 def add_to_cart(request):
@@ -167,3 +170,29 @@ def update_cart_quantity(request, id):
     return Response({
         "message": "Quantity Updated"
     })
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def owner_orders(request):
+
+    try:
+        shop = Shop.objects.get(owner=request.user)
+
+    except Shop.DoesNotExist:
+
+        return Response({
+            "error": "Shop not found"
+        }, status=404)
+
+    products = Product.objects.filter(shop=shop)
+
+    orders = Order.objects.filter(
+        orderitem__product__in=products
+    ).distinct()
+
+    serializer = OrderSerializer(
+        orders,
+        many=True
+    )
+
+    return Response(serializer.data)
