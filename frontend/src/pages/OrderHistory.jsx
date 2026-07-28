@@ -2,136 +2,85 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/OrderHistory.css";
 function OrderHistory() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    loadOrders();
+  }, []);
 
-    useEffect(() => {
-        loadOrders();
-    }, []);
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
 
-    const loadOrders = async () => {
+      const userId = localStorage.getItem("user_id");
+ 
+      const res = await API.get(`/cart/history/${userId}/`);
 
-        try {
-
-            setLoading(true);
-
-            const userId = 1;
-
-            const res = await API.get(`/cart/history/${userId}/`);
-
-            setOrders(res.data);
-
-        } catch (err) {
-
-            console.error(err);
-            alert("Unable to load orders");
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
-
-    if (loading) {
-        return <h2>Loading Orders...</h2>;
+      setOrders(res.data);
+    } catch (err) {
+      console.error(err);
+      alert("Unable to load orders");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return (
+  if (loading) {
+    return <h2>Loading Orders...</h2>;
+  }
 
-<div className="order-container">
+  return (
+    <div className="order-container">
+      <h1 className="order-title">My Orders</h1>
 
-<h1 className="order-title">
+      {orders.length === 0 ? (
+        <div className="empty-orders">
+          <h1>📦</h1>
 
-My Orders
+          <h2>No Orders Yet</h2>
 
-</h1>
+          <p>Start shopping and place your first order.</p>
+        </div>
+      ) : (
+        orders.map((order) => (
+          <div key={order.id} className="order-card">
+            <div className="order-header">
+              <h2 className="order-id">Order #{order.id}</h2>
 
-{orders.length===0?
+              <span
+                className={`order-status ${order.status.toLowerCase().replace(/\s/g, "")}`}
+              >
+                {order.status}
+              </span>
+            </div>
 
-<div className="empty-orders">
+            <div className="order-details">
+              <div className="detail-box">
+                <h4>Total Amount</h4>
 
-<h1>📦</h1>
+                <p>₹{order.total_amount}</p>
+              </div>
 
-<h2>No Orders Yet</h2>
+              <div className="detail-box">
+                <h4>Status</h4>
 
-<p>Start shopping and place your first order.</p>
+                <p>{order.status}</p>
+              </div>
 
-</div>
+              <div className="detail-box">
+                <h4>Order Date</h4>
 
-:
+                <p>{new Date(order.created_at).toLocaleDateString()}</p>
+              </div>
+            </div>
 
-orders.map(order=>(
-
-<div
-key={order.id}
-className="order-card"
->
-
-<div className="order-header">
-
-<h2 className="order-id">
-
-Order #{order.id}
-
-</h2>
-
-<span
-className={`order-status ${order.status.toLowerCase().replace(/\s/g,"")}`}
->
-
-{order.status}
-
-</span>
-
-</div>
-
-<div className="order-details">
-
-<div className="detail-box">
-
-<h4>Total Amount</h4>
-
-<p>₹{order.total_amount}</p>
-
-</div>
-
-<div className="detail-box">
-
-<h4>Status</h4>
-
-<p>{order.status}</p>
-
-</div>
-
-<div className="detail-box">
-
-<h4>Order Date</h4>
-
-<p>{new Date(order.created_at).toLocaleDateString()}</p>
-
-</div>
-
-</div>
-
-<button className="track-btn">
-
-Track Order
-
-</button>
-
-</div>
-
-))
-
-}
-
-</div>
-
-);
-
+            <button className="track-btn">Track Order</button>
+          </div>
+        ))
+      )}
+    </div>
+  );
 }
 
 export default OrderHistory;

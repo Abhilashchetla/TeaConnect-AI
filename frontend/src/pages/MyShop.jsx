@@ -1,146 +1,191 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/MyShop.css";
 
 function MyShop() {
+  const [shop, setShop] = useState({
+    shop_name: "",
+    address: "",
+    city: "",
+    state: "",
+    rating: "",
+  });
 
-    const [shop, setShop] = useState({
-        shop_name: "",
-        owner_name: "",
-        address: "",
-        phone: "",
-        opening_time: "",
-        closing_time: "",
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    loadShop();
+  }, []);
+
+const loadShop = async () => {
+  try {
+    setLoading(true);
+
+    const res = await API.get("/shops/my-shop/");
+
+    setShop(res.data);
+  } catch (err) {
+    console.log(err.response);
+
+    alert("Unable to load shop details.");
+  } finally {
+    setLoading(false);
+  }
+};
+  const handleChange = (e) => {
+    setShop({
+      ...shop,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const [loading, setLoading] = useState(true);
+  const saveShop = async () => {
+  try {
+    setSaving(true);
 
-    useEffect(() => {
-        loadShop();
-    }, []);
+    await API.put("/shops/update/", shop);
 
-    const loadShop = async () => {
+    alert("Shop updated successfully.");
+  } catch (err) {
+    console.log(err.response);
 
-        try {
-
-            const res = await API.get("/shops/my-shop/");
-
-            setShop(res.data);
-            
-
-        } catch (err) {
-
-            console.log(err);
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
-
-    const handleChange = (e) => {
-
-        setShop({
-
-            ...shop,
-
-            [e.target.name]: e.target.value
-
-        });
-
-    };
-
-    const updateShop = async () => {
-
-        try {
-
-            await API.put("/shops/update/", shop);
-
-            alert("Shop Updated Successfully");
-
-        }
-
-        catch (err) {
-
-            console.log(err);
-
-            alert("Update Failed");
-
-        }
-
-    };
-
-    if (loading)
-        return <h2>Loading Shop...</h2>;
-
+    alert("Failed to update shop.");
+  } finally {
+    setSaving(false);
+  }
+};
+  if (loading) {
     return (
+      <div className="shop-loading">
+        <h2>Loading My Shop...</h2>
+      </div>
+    );
+  }
 
-        <div className="shop-page">
+  return (
+    <div className="myshop-page">
 
-            <div className="shop-card">
+      <div className="shop-header">
 
-                <h1>My Tea Shop</h1>
+        <div className="shop-avatar">
+          ☕
+        </div>
 
-                <input
-                    name="shop_name"
-                    value={shop.shop_name}
-                    onChange={handleChange}
-                    placeholder="Shop Name"
-                />
+        <div className="shop-info">
+          <h1>{shop.shop_name || "My Tea Shop"}</h1>
 
-                <input
-                    name="owner_name"
-                    value={shop.owner_name}
-                    onChange={handleChange}
-                    placeholder="Owner Name"
-                />
+          <p>
+            Manage your tea shop information, address and business details.
+          </p>
+        </div>
 
-                <textarea
-                    name="address"
-                    value={shop.address}
-                    onChange={handleChange}
-                    placeholder="Address"
-                />
+      </div>
 
-                <input
-                    name="phone"
-                    value={shop.phone}
-                    onChange={handleChange}
-                    placeholder="Phone"
-                />
+      <div className="shop-card">
 
-                <div className="time-row">
+        <h2>Shop Information</h2>
 
-                    <input
-                        type="time"
-                        name="opening_time"
-                        value={shop.opening_time}
-                        onChange={handleChange}
-                    />
+        <div className="shop-grid">
 
-                    <input
-                        type="time"
-                        name="closing_time"
-                        value={shop.closing_time}
-                        onChange={handleChange}
-                    />
+          <div className="form-group">
+            <label>Shop Name</label>
 
-                </div>
+            <input
+              type="text"
+              name="shop_name"
+              value={shop.shop_name}
+              onChange={handleChange}
+              placeholder="Tea Shop Name"
+            />
+          </div>
 
-                <button onClick={updateShop}>
+          <div className="form-group">
+            <label>City</label>
 
-                    Save Changes
+            <input
+              type="text"
+              name="city"
+              value={shop.city}
+              onChange={handleChange}
+              placeholder="City"
+            />
+          </div>
 
-                </button>
+          <div className="form-group full-width">
+            <label>Address</label>
 
-            </div>
+            <textarea
+              name="address"
+              value={shop.address}
+              onChange={handleChange}
+              rows="4"
+              placeholder="Shop Address"
+            />
+          </div>
+                    <div className="form-group">
+            <label>State</label>
+
+            <input
+              type="text"
+              name="state"
+              value={shop.state}
+              onChange={handleChange}
+              placeholder="State"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Rating</label>
+
+            <input
+              type="number"
+              name="rating"
+              value={shop.rating}
+              onChange={handleChange}
+              placeholder="Rating"
+              step="0.1"
+              min="0"
+              max="5"
+            />
+          </div>
 
         </div>
 
-    );
+        <div className="shop-summary">
 
+          <div className="summary-card">
+            <h3>🏪 Shop</h3>
+            <p>{shop.shop_name || "Not Available"}</p>
+          </div>
+
+          <div className="summary-card">
+            <h3>📍 Location</h3>
+            <p>{shop.city || "City"}</p>
+          </div>
+
+          <div className="summary-card">
+            <h3>⭐ Rating</h3>
+            <p>{shop.rating || "0.0"} / 5</p>
+          </div>
+
+        </div>
+
+        <div className="button-section">
+
+          <button
+            className="save-btn"
+            onClick={saveShop}
+            disabled={saving}
+          >
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  );
 }
 
 export default MyShop;

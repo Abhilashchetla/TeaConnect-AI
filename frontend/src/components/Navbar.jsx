@@ -76,9 +76,7 @@ function Navbar() {
 
         {role === "owner" && (
           <>
-            <Link to="/create-shop">
-              My Shop
-            </Link>
+<Link to="/my-shop">My Shop</Link>
 
             <Link to="/create-product">
               Add Product

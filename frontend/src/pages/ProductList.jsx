@@ -40,8 +40,10 @@ function ProductList() {
   // Add To Cart
   const addToCart = async (productId) => {
     try {
+      const userId = localStorage.getItem("user_id");
+
       await API.post("/cart/add/", {
-        user: 1,
+        user: userId,
         product: productId,
         quantity: 1,
       });
@@ -56,8 +58,10 @@ function ProductList() {
   // Wishlist
   const addToWishlist = async (productId) => {
     try {
+      const userId = localStorage.getItem("user_id");
+
       await API.post("/wishlist/add/", {
-        user: 1,
+        user: userId,
         product: productId,
       });
 

@@ -1,101 +1,352 @@
-.shop-page{
+/* ===========================
+   My Shop Page
+=========================== */
 
-padding:40px;
-
-background:#f4f6f9;
-
-min-height:100vh;
-
+.myshop-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.shop-page h1{
+/* ===========================
+   Loading
+=========================== */
 
-color:#064420;
-
-margin-bottom:40px;
-
+.shop-loading{
+    text-align:center;
+    margin-top:120px;
+    color:#2e7d32;
 }
+
+/* ===========================
+   Header
+=========================== */
+
+.shop-header{
+    display:flex;
+    align-items:center;
+    gap:25px;
+
+    background:#ffffff;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+}
+
+.shop-avatar{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#2e7d32,#43a047);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#fff;
+
+    font-size:42px;
+
+    font-weight:bold;
+}
+
+.shop-info h1{
+
+    margin:0;
+
+    color:#1b5e20;
+
+    font-size:32px;
+}
+
+.shop-info p{
+
+    margin-top:8px;
+
+    color:#666;
+
+    font-size:16px;
+}
+
+/* ===========================
+   Main Card
+=========================== */
+
+.shop-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.shop-card h2{
+
+    margin-bottom:30px;
+
+    color:#2e7d32;
+}
+
+/* ===========================
+   Form Grid
+=========================== */
 
 .shop-grid{
 
-display:grid;
+    display:grid;
 
-grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    grid-template-columns:repeat(2,1fr);
 
-gap:25px;
+    gap:22px;
+}
+
+.full-width{
+
+    grid-column:1/3;
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.form-group label{
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+    color:#444;
+}
+
+.form-group input{
+
+    padding:14px;
+
+    border:1px solid #dcdcdc;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.form-group textarea{
+
+    padding:14px;
+
+    border:1px solid #dcdcdc;
+
+    border-radius:10px;
+
+    resize:none;
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+
+    outline:none;
+
+    border-color:#43a047;
+
+    box-shadow:0 0 8px rgba(67,160,71,.25);
+}
+
+/* ===========================
+   Summary Cards
+=========================== */
+
+.shop-summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+    margin-top:40px;
+}
+
+.summary-card{
+
+    background:#f7fff8;
+
+    border-left:6px solid #2e7d32;
+
+    border-radius:14px;
+
+    padding:25px;
+
+    text-align:center;
+
+    transition:.3s;
+}
+
+.summary-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 12px 25px rgba(0,0,0,.12);
+}
+
+.summary-card h3{
+
+    margin-bottom:12px;
+
+    color:#2e7d32;
+}
+
+.summary-card p{
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:#333;
+}
+
+/* ===========================
+   Button
+=========================== */
+
+.button-section{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:40px;
+}
+
+.save-btn{
+
+    background:#2e7d32;
+
+    color:white;
+
+    border:none;
+
+    padding:16px 40px;
+
+    border-radius:10px;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:bold;
+}
+
+.save-btn:hover{
+
+    background:#1b5e20;
+
+    transform:translateY(-3px);
+}
+
+.save-btn:disabled{
+
+    background:gray;
+
+    cursor:not-allowed;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:900px){
+
+.shop-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.full-width{
+
+grid-column:auto;
+
+}
+
+.shop-summary{
+
+grid-template-columns:1fr;
+
+}
+
+.shop-header{
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+.shop-avatar{
+
+margin-bottom:15px;
+
+}
+
+.shop-info h1{
+
+font-size:26px;
+
+}
+}
+
+@media(max-width:600px){
+
+.myshop-page{
+
+padding:15px;
 
 }
 
 .shop-card{
 
-background:white;
-
-padding:30px;
-
-border-radius:18px;
-
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-
-transition:.3s;
+padding:20px;
 
 }
 
-.shop-card:hover{
+.shop-header{
 
-transform:translateY(-5px);
-
-}
-
-.shop-card h2{
-
-color:#064420;
-
-margin-bottom:20px;
+padding:20px;
 
 }
 
-.shop-card p{
-
-margin-bottom:10px;
-
-color:#444;
-
-}
-
-.active{
-
-color:green;
-
-font-weight:bold;
-
-}
-
-.shop-card button{
-
-margin-top:20px;
+.save-btn{
 
 width:100%;
 
-padding:12px;
-
-background:#064420;
-
-color:white;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
-font-size:16px;
-
-transition:.3s;
-
 }
-
-.shop-card button:hover{
-
-background:#0b7d43;
-
 }
