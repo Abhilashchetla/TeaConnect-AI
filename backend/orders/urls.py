@@ -12,6 +12,8 @@ from .views import (
     update_cart_quantity,
     owner_orders,
 )
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,)
 
 urlpatterns = [
     path('add/',add_to_cart),
@@ -24,4 +26,9 @@ urlpatterns = [
     path('update-status/<int:order_id>/',update_order_status),
     path("update/<int:id>/",update_cart_quantity),
     path("owner-orders/", owner_orders),
+    path(
+    "api/token/refresh/",
+    TokenRefreshView.as_view(),
+    name="token_refresh",
+),
 ]
