@@ -5,7 +5,7 @@ from rest_framework import status
 
 from .models import Shop
 from .serializers import ShopSerializer
-
+from math import radians, sin, cos, sqrt, atan2
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -118,3 +118,63 @@ def update_shop(request):
         return Response(serializer.data)
 
     return Response(serializer.errors, status=400)
+
+
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth's radius in kilometers
+
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    lat2 = radians(lat2)
+    lon2 = radians(lon2)
+
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    return R * c
+
+
+@api_view(["POST"])
+def nearby_shops(request):
+
+    customer_lat = request.data.get("latitude")
+    customer_lng = request.data.get("longitude")
+
+    if customer_lat is None or customer_lng is None:
+        return Response(
+            {"error": "Latitude and Longitude are required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    customer_lat = float(customer_lat)
+    customer_lng = float(customer_lng)
+
+    shops = Shop.objects.exclude(
+        latitude__isnull=True,
+        longitude__isnull=True
+    )
+
+    nearby = []
+
+    for shop in shops:
+
+        distance = haversine(
+            customer_lat,
+            customer_lng,
+            shop.latitude,
+            shop.longitude
+        )
+
+        serializer = ShopSerializer(shop)
+
+        data = serializer.data
+        data["distance"] = round(distance, 2)
+
+        nearby.append(data)
+
+    nearby.sort(key=lambda x: x["distance"])
+
+    return Response(nearby)

@@ -52,6 +52,33 @@ function CreateShop() {
         }
 
     };
+    const getCurrentLocation = () => {
+
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        (position) => {
+
+            setShop((prev) => ({
+                ...prev,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            }));
+
+            alert("Location captured successfully!");
+
+        },
+
+        () => {
+            alert("Unable to get your location.");
+        }
+
+    );
+};
 
     return (
 
@@ -103,6 +130,13 @@ function CreateShop() {
                         value={shop.state}
                         onChange={handleChange}
                     />
+                    <button
+    type="button"
+    className="location-btn"
+    onClick={getCurrentLocation}
+>
+    📍 Use Shop Current Location
+</button>
 
                     <button
                         className="create-btn"

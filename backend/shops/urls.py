@@ -5,7 +5,8 @@ from .views import (
     list_shops,
     shop_detail,
     my_shop,
-    update_shop
+    update_shop,
+    nearby_shops,
 )
 urlpatterns = [
     path('create/',create_shop),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('<int:id>/',shop_detail),
     path("my-shop/", my_shop),
     path("update/", update_shop),
+    path("nearby/", nearby_shops),
 ]
