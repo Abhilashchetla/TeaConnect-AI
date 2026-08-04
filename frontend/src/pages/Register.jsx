@@ -133,6 +133,9 @@ function Register() {
               <option value="owner">
                 🏪 Tea Shop Owner
               </option>
+                <option value="delivery">
+                  🛵 Delivery Partner
+                  </option>
 
               <option value="admin">
                 🛠 Admin

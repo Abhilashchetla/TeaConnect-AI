@@ -3,43 +3,61 @@ import "./index.css";
 
 import Navbar from "./components/Navbar";
 
-import OwnerDashboard from "./pages/OwnerDashboard";
-import MyShop from "./pages/MyShop";
-import Inventory from "./pages/Inventory";
-import Analytics from "./pages/Analytics";
-
+// Authentication
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Customer
 import CustomerDashboard from "./pages/CustomerDashboard";
-import CreateShop from "./pages/CreateShop";
-import CreateProduct from "./pages/CreateProduct";
 import ProductList from "./pages/ProductList";
 import ShopList from "./pages/ShopList";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderHistory from "./pages/OrderHistory";
-import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
 
+// Common
+import Profile from "./pages/Profile";
+
+// Owner
+import OwnerDashboard from "./pages/OwnerDashboard";
+import MyShop from "./pages/MyShop";
+import Inventory from "./pages/Inventory";
+import Analytics from "./pages/Analytics";
+import CreateShop from "./pages/CreateShop";
+import CreateProduct from "./pages/CreateProduct";
+import OwnerProducts from "./pages/OwnerProducts";
+import OwnerOrders from "./pages/OwnerOrders";
+
+// Delivery Agent
+import DeliveryDashboard from "./pages/DeliveryDashboard";
+import DeliveryOrders from "./pages/DeliveryOrders";
+
+// Toast
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "./components/Footer";
-import ProtectedRoute from "./components/ProtectedRoute";
-import OwnerProducts from "./pages/OwnerProducts";
 
-import OwnerOrders from "./pages/OwnerOrders";
+// Footer
+import Footer from "./components/Footer";
+
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
 
       <Routes>
+        {/* ================================= */}
+        {/* PUBLIC ROUTES */}
+        {/* ================================= */}
+
         <Route path="/" element={<Login />} />
 
         <Route path="/register" element={<Register />} />
 
-        {/* Customer */}
+        {/* ================================= */}
+        {/* CUSTOMER ROUTES */}
+        {/* ================================= */}
 
         <Route
           path="/customer"
@@ -60,18 +78,19 @@ function App() {
         />
 
         <Route
-          path="/shops/:shopId/products"
-          element={
-            <ProtectedRoute allowedRoles={["customer"]}>
-              <ProductList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/shops"
           element={
             <ProtectedRoute allowedRoles={["customer"]}>
               <ShopList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/shops/:shopId/products"
+          element={
+            <ProtectedRoute allowedRoles={["customer"]}>
+              <ProductList />
             </ProtectedRoute>
           }
         />
@@ -112,19 +131,21 @@ function App() {
           }
         />
 
+        {/* ================================= */}
+        {/* OWNER ROUTES */}
+        {/* ================================= */}
+
         <Route
-          path="/profile"
+          path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={["customer", "owner"]}>
-              <Profile />
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <OwnerDashboard />
             </ProtectedRoute>
           }
         />
 
-        {/* Shop Owner */}
-
         <Route
-          path="/dashboard"
+          path="/owner-dashboard"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <OwnerDashboard />
@@ -142,6 +163,15 @@ function App() {
         />
 
         <Route
+          path="/my-shop"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <MyShop />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/create-product"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
@@ -149,20 +179,21 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
-          path="/owner-dashboard"
+          path="/owner/products"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
-              <OwnerDashboard />
+              <OwnerProducts />
             </ProtectedRoute>
           }
         />
 
         <Route
-          path="/my-shop"
+          path="/owner-orders"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
-              <MyShop />
+              <OwnerOrders />
             </ProtectedRoute>
           }
         />
@@ -184,23 +215,43 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* ================================= */}
+        {/* DELIVERY AGENT ROUTES */}
+        {/* ================================= */}
+
         <Route
-          path="/owner/products"
+          path="/delivery-dashboard"
           element={
-            <ProtectedRoute allowedRoles={["owner"]}>
-              <OwnerProducts />
+            <ProtectedRoute allowedRoles={["delivery"]}>
+              <DeliveryDashboard />
             </ProtectedRoute>
           }
         />
+
         <Route
-          path="/owner-orders"
+          path="/delivery-orders"
           element={
-            <ProtectedRoute allowedRoles={["owner"]}>
-              <OwnerOrders />
+            <ProtectedRoute allowedRoles={["delivery"]}>
+              <DeliveryOrders />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================================= */}
+        {/* COMMON PROFILE */}
+        {/* ================================= */}
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={["customer", "owner", "delivery"]}>
+              <Profile />
             </ProtectedRoute>
           }
         />
       </Routes>
+
       <Footer />
 
       <ToastContainer

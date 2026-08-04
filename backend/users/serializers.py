@@ -2,18 +2,21 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 
 from .models import User
-from shops.models import Shop
 
 
 class RegisterSerializer(serializers.ModelSerializer):
 
     shop_name = serializers.CharField(
         required=False,
+        allow_blank=True,
+        allow_null=True,
         write_only=True
     )
 
     shop_location = serializers.CharField(
         required=False,
+        allow_blank=True,
+        allow_null=True,
         write_only=True
     )
 
@@ -22,56 +25,42 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
 
         fields = [
-
             "username",
             "email",
             "phone",
             "password",
             "role",
-
             "shop_name",
-            "shop_location"
-
+            "shop_location",
         ]
+
+        extra_kwargs = {
+            "password": {
+                "write_only": True
+            }
+        }
 
     def create(self, validated_data):
 
-        shop_name = validated_data.pop(
+        # Remove shop fields.
+        # Shop will be created separately from Create Shop page.
+        validated_data.pop(
             "shop_name",
             None
         )
 
-        shop_location = validated_data.pop(
+        validated_data.pop(
             "shop_location",
             None
         )
 
-        user = User.objects.create(
-
-            username=validated_data["username"],
-
-            email=validated_data["email"],
-
-            phone=validated_data["phone"],
-
-            role=validated_data["role"],
-
-            password=make_password(
-                validated_data["password"]
-            )
-
+        password = validated_data.pop(
+            "password"
         )
 
-        if user.role == "owner":
-
-            Shop.objects.create(
-
-                owner=user,
-
-                shop_name=shop_name,
-
-                location=shop_location
-
-            )
+        user = User.objects.create(
+            **validated_data,
+            password=make_password(password)
+        )
 
         return user

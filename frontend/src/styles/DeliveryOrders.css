@@ -1,0 +1,376 @@
+.delivery-orders-page {
+  min-height: 100vh;
+
+  padding: 45px 60px;
+
+  background: #f4f7f5;
+}
+
+.delivery-orders-header {
+  max-width: 1100px;
+
+  margin: 0 auto 35px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.delivery-orders-header h1 {
+  color: #064e2b;
+
+  margin: 0 0 8px;
+
+  font-size: 34px;
+}
+
+.delivery-orders-header p {
+  color: #777;
+
+  margin: 0;
+}
+
+.assigned-count {
+  background: #064e2b;
+
+  color: white;
+
+  padding: 10px 18px;
+
+  border-radius: 25px;
+
+  font-weight: 600;
+}
+
+
+/* ORDER LIST */
+
+.delivery-orders-list {
+  max-width: 1100px;
+
+  margin: auto;
+
+  display: grid;
+
+  gap: 25px;
+}
+
+.delivery-order-card {
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.08);
+
+  border-left: 5px solid #08783f;
+}
+
+
+/* HEADER */
+
+.delivery-order-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #eee;
+}
+
+.delivery-order-header h2 {
+  margin: 0 0 5px;
+
+  color: #064e2b;
+}
+
+.delivery-order-header p {
+  margin: 0;
+
+  color: #888;
+
+  font-size: 14px;
+}
+
+.delivery-order-status {
+  padding: 8px 15px;
+
+  border-radius: 20px;
+
+  font-weight: 700;
+
+  font-size: 13px;
+
+  background: #fff3cd;
+
+  color: #856404;
+}
+
+.delivery-order-status.picked-up {
+  background: #e0e7ff;
+
+  color: #3730a3;
+}
+
+.delivery-order-status.out-for-delivery {
+  background: #dbeafe;
+
+  color: #1e40af;
+}
+
+.delivery-order-status.delivered {
+  background: #d4edda;
+
+  color: #155724;
+}
+
+
+/* CUSTOMER */
+
+.delivery-customer-box {
+  background: #f8faf9;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  margin-top: 22px;
+}
+
+.delivery-customer-box h3 {
+  color: #064e2b;
+
+  margin: 0 0 12px;
+}
+
+.delivery-customer-box h4 {
+  margin: 0 0 8px;
+
+  font-size: 18px;
+}
+
+.delivery-customer-box p {
+  margin: 6px 0;
+
+  color: #555;
+}
+
+
+/* PRODUCTS */
+
+.delivery-products {
+  margin-top: 25px;
+}
+
+.delivery-products h3 {
+  color: #064e2b;
+
+  margin-bottom: 15px;
+}
+
+.delivery-product-row {
+  display: grid;
+
+  grid-template-columns:
+    1fr 150px 120px;
+
+  padding: 13px 5px;
+
+  border-bottom: 1px solid #eee;
+}
+
+.delivery-product-row strong {
+  text-align: right;
+}
+
+
+/* TOTAL */
+
+.delivery-total {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 20px;
+
+  padding: 18px;
+
+  background: #eef8f2;
+
+  border-radius: 10px;
+}
+
+.delivery-total span {
+  font-weight: 600;
+
+  color: #555;
+}
+
+.delivery-total strong {
+  color: #064e2b;
+
+  font-size: 23px;
+}
+
+
+/* BUTTONS */
+
+.delivery-actions {
+  margin-top: 25px;
+}
+
+.delivery-actions button {
+  width: 100%;
+
+  border: none;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.pickup-btn {
+  background: #f59e0b;
+
+  color: white;
+}
+
+.pickup-btn:hover {
+  background: #d97706;
+}
+
+.start-delivery-btn {
+  background: #2563eb;
+
+  color: white;
+}
+
+.start-delivery-btn:hover {
+  background: #1d4ed8;
+}
+
+.delivered-btn {
+  background: #08783f;
+
+  color: white;
+}
+
+.delivered-btn:hover {
+  background: #065f32;
+}
+
+.delivery-actions button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+.delivery-completed {
+  padding: 15px;
+
+  background: #d4edda;
+
+  color: #155724;
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  font-weight: 700;
+}
+
+
+/* EMPTY */
+
+.no-delivery-orders {
+  max-width: 600px;
+
+  margin: 70px auto;
+
+  padding: 60px;
+
+  text-align: center;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.07);
+}
+
+.no-delivery-icon {
+  font-size: 60px;
+
+  margin-bottom: 15px;
+}
+
+.no-delivery-orders h2 {
+  color: #064e2b;
+}
+
+.no-delivery-orders p {
+  color: #777;
+}
+
+.delivery-orders-loading {
+  min-height: 600px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #064e2b;
+
+  font-size: 24px;
+
+  font-weight: 600;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .delivery-orders-page {
+    padding: 30px 20px;
+  }
+
+  .delivery-orders-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .delivery-product-row {
+    grid-template-columns: 1fr;
+
+    gap: 7px;
+  }
+
+  .delivery-product-row strong {
+    text-align: left;
+  }
+
+}

@@ -1,8 +1,9 @@
 from rest_framework import serializers
+
 from .models import Cart, Order, OrderItem
 
 
-# ---------------- CART ---------------- #
+# ==================== CART ====================
 
 class CartSerializer(serializers.ModelSerializer):
 
@@ -19,7 +20,9 @@ class CartSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
+
         model = Cart
+
         fields = [
             "id",
             "user",
@@ -30,7 +33,7 @@ class CartSerializer(serializers.ModelSerializer):
         ]
 
 
-# ---------------- ORDER ITEM ---------------- #
+# ==================== ORDER ITEM ====================
 
 class OrderItemSerializer(serializers.ModelSerializer):
 
@@ -39,18 +42,26 @@ class OrderItemSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    shop_name = serializers.CharField(
+        source="product.shop.shop_name",
+        read_only=True
+    )
+
     class Meta:
+
         model = OrderItem
+
         fields = [
             "id",
             "product",
             "product_name",
+            "shop_name",
             "quantity",
             "price",
         ]
 
 
-# ---------------- ORDER ---------------- #
+# ==================== ORDER ====================
 
 class OrderSerializer(serializers.ModelSerializer):
 
@@ -69,26 +80,56 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
-    items = serializers.SerializerMethodField()
+
+    # Delivery Agent Details
+
+    delivery_agent_name = serializers.CharField(
+        source="delivery_agent.username",
+        read_only=True
+    )
+
+    delivery_agent_phone = serializers.CharField(
+        source="delivery_agent.phone",
+        read_only=True
+    )
+
+    delivery_agent_email = serializers.CharField(
+        source="delivery_agent.email",
+        read_only=True
+    )
+
+
+    # Order Products
+
+    items = OrderItemSerializer(
+        many=True,
+        read_only=True
+    )
+
 
     class Meta:
+
         model = Order
+
         fields = [
             "id",
+
             "customer_name",
             "customer_phone",
             "customer_email",
+
+            "delivery_agent",
+            "delivery_agent_name",
+            "delivery_agent_phone",
+            "delivery_agent_email",
+
             "total_amount",
             "status",
             "created_at",
+
             "items",
         ]
 
-    def get_items(self, obj):
-
-        items = OrderItem.objects.filter(order=obj)
-
-        return OrderItemSerializer(
-            items,
-            many=True
-        ).data
+        read_only_fields = [
+            "delivery_agent"
+        ]

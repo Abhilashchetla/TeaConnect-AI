@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+
 import API from "../services/api";
+
 import { useNavigate, Link } from "react-router-dom";
+
 import { toast } from "react-toastify";
 
 import "../styles/Login.css";
@@ -12,59 +15,108 @@ function Login() {
 
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
+  // ==========================================
+  // LOGIN USER
+  // ==========================================
+
   const loginUser = async () => {
+    if (!email.trim() || !password.trim()) {
+      toast.warning("Please enter email and password");
+
+      return;
+    }
+
     try {
-      // Login
+      setLoading(true);
+
+      // ======================================
+      // STEP 1: LOGIN AND GET JWT TOKENS
+      // ======================================
+
       const res = await API.post("/token/", {
         email: email.trim(),
-
         password: password.trim(),
       });
 
-      // Save Tokens
+      // ======================================
+      // STEP 2: SAVE TOKENS
+      // ======================================
 
       localStorage.setItem("access", res.data.access);
 
       localStorage.setItem("refresh", res.data.refresh);
 
+      // Add token immediately
+
       API.defaults.headers.common["Authorization"] =
         `Bearer ${res.data.access}`;
 
-      // Get Logged-in User
+      // ======================================
+      // STEP 3: GET LOGGED-IN USER
+      // ======================================
 
       const profile = await API.get("/users/profile/");
 
-      console.log(profile.data);
+      console.log("Logged User:", profile.data);
+
+      // ======================================
+      // STEP 4: SAVE USER INFORMATION
+      // ======================================
+
+      localStorage.setItem("user_id", profile.data.id);
 
       localStorage.setItem("username", profile.data.username);
 
       localStorage.setItem("email", profile.data.email);
 
       localStorage.setItem("role", profile.data.role);
-      localStorage.setItem("user_id", profile.data.id);
 
       toast.success(`Welcome ${profile.data.username}!`);
 
-      // Role Based Login
+      // ======================================
+      // STEP 5: ROLE BASED REDIRECT
+      // ======================================
 
       if (profile.data.role === "customer") {
-        navigate("/customer");
+        navigate("/customer", { replace: true });
       } else if (profile.data.role === "owner") {
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
+      } else if (profile.data.role === "delivery") {
+        navigate("/delivery-dashboard", { replace: true });
       } else if (profile.data.role === "admin") {
-        navigate("/admin");
+        navigate("/admin", { replace: true });
       } else {
-        navigate("/");
+        toast.error("Unknown user role");
+
+        localStorage.clear();
+
+        navigate("/", { replace: true });
       }
     } catch (err) {
-      console.log(err.response?.data);
+      console.log("Login Error:", err.response?.data);
 
-      toast.error("Invalid Email or Password");
+      toast.error(err.response?.data?.detail || "Invalid Email or Password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ==========================================
+  // ENTER KEY LOGIN
+  // ==========================================
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      loginUser();
     }
   };
 
   return (
     <div className="login-container">
+      {/* LEFT SIDE */}
+
       <div className="login-left">
         <div className="overlay">
           <h1>☕ TeaConnect AI</h1>
@@ -79,31 +131,42 @@ function Login() {
         </div>
       </div>
 
+      {/* RIGHT SIDE */}
+
       <div className="login-right">
         <div className="login-card">
           <h2>Welcome Back</h2>
 
           <p className="subtitle">Login to continue your Tea Journey</p>
 
+          {/* EMAIL */}
+
           <input
             type="email"
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
+
+          {/* PASSWORD */}
 
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
 
-          <button onClick={loginUser}>Login</button>
+          {/* LOGIN BUTTON */}
+
+          <button onClick={loginUser} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
 
           <p className="switch-text">
-            New to TeaConnect?
-            <Link to="/register">Create Account</Link>
+            New to TeaConnect? <Link to="/register">Create Account</Link>
           </p>
         </div>
       </div>
